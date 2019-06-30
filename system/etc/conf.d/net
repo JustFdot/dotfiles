@@ -1,0 +1,5 @@
+modules="wpa_supplicant"
+# wlp_supplicant_wlp9s0b1="-Dwext -iwlp9s0b1 -c/etc/wpa_supplicant/wpa_supplicant.conf"
+wlp_supplicant_wlp9s0="-Dwext -iwlp9s0 -c/etc/wpa_supplicant/wpa_supplicant.conf"
+# config_wlp9s0b1="dhcp"
+config_wlp9s0="dhcp"

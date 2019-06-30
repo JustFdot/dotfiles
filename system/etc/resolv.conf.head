@@ -1,0 +1,13 @@
+# nameserver 127.0.0.1
+
+# Basic Yandex.DNS - Quick and reliable DNS
+nameserver 77.88.8.8              # Preferred IPv4 DNS
+nameserver 77.88.8.1              # Alternate IPv4 DNS
+
+# Google IPv4 nameservers
+nameserver 8.8.8.8
+nameserver 8.8.4.4
+
+# OpenDNS IPv4 nameservers
+nameserver 208.67.222.222
+nameserver 208.67.220.220

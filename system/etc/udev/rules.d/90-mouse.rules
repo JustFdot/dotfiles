@@ -1,0 +1,1 @@
+SUBSYSTEM=="input", KERNEL=="mouse[0-9]*", ACTION=="add|remove", RUN+="/usr/local/bin/pick-peripheral-udev mouse"

@@ -1,0 +1,1 @@
+KERNEL=="event[0-9]*", SUBSYSTEM=="input", ACTION=="add|remove", ATTRS{idProduct}=="0101", ATTRS{idVendor}=="04b4", ENV{ID_USB_INTERFACE_NUM}=="00", RUN+="/usr/local/bin/pick-peripheral-udev keyboard"

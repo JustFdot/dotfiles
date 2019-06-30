@@ -1,0 +1,5 @@
+ATTR{brightness}=="0", GOTO="intel_backlight_end"
+ATTRS{dpms}=="*[Oo]ff*", GOTO="intel_backlight_end"
+KERNEL=="intel_backlight", SUBSYSTEM=="backlight", ACTION=="change", RUN="/usr/bin/pkill -f -HUP eyeskeeper"
+
+LABEL="intel_backlight_end"
