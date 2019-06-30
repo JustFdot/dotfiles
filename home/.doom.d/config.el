@@ -13,4 +13,7 @@
         :i "S-SPC"    #'+company/complete)
       (:when (featurep! :editor fold)
         :nv "zr"      #'+fold/open-all)
+      (:when (featurep! :emacs dired +ranger)
+        :leader
+          :desc "Open deer with file in buffer" "d" #'deer)
   )
