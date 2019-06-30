@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+
+xinit_cmd=$(pgrep -a xinit)
+DISPLAY="$(echo "$xinit_cmd" | grep -o ':[0-9]')"
+XUSER="$(echo "$xinit_cmd" | sed -E 's/.*\/home\/(.*)\/.*/\1/')"
+XAUTHORITY="/home/$XUSER/.Xauthority"
+export DISPLAY XAUTHORITY XUSER
+
+urxvt -title emerge-world -e sh -c "/usr/sbin/emaint -a sync && echo -e '\a' && /usr/bin/emerge -uND world"

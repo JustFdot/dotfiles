@@ -1,0 +1,49 @@
+# -*-mode: python; flycheck-mode: nil -*-
+
+import re
+import datetime as dt
+
+import xonsh.tools as xt
+
+# adjust some paths
+$PATH.extend(['$HOME/bin', '$HOME/.local/bin'])
+$PYTHONPATH = ['$HOME/.local/bin', '$HOME/python']
+
+# some customization options, see https://xon.sh/envvars.html for details
+$XONSH_SHOW_TRACEBACK = True
+$XONSH_HISTORY_MATCH_ANYWHERE = True
+$COMPLETIONS_CONFIRM = True
+$AUTO_SUGGEST_IN_COMPLETIONS = False
+$XONSH_AUTOPAIR = True
+
+
+def _take(args, stdin=None):
+    if len(args) > 1:
+        return None, f'Only 1 argument expected, {len(args)} given.'
+    mkdir -p @(args[0])
+    cd @(args[0])
+
+aliases['take'] = _take
+aliases['to'] = aliases['cd']
+aliases['rm'] = 'rm -i'
+aliases['em'] = 'emacsclient'
+aliases['ll'] = 'ls -l'
+aliases['l'] = 'ls -la'
+
+
+# from xonsh.prompt.vc import git_dirty_working_directory
+# $PROMPT_FIELDS['branch_color'] = lambda: ('{RED}' if git_dirty_working_directory(include_untracked=True) else '{GREEN}')
+
+$PROMPT_FIELDS['prompt_end'] = "{RED}#" if xt.is_superuser() else "{PURPLE}%"
+
+from xonsh.prompt.vc import current_branch, git_dirty_working_directory
+def _curr_branch():
+    curr_branch = current_branch()
+    if curr_branch is not None:
+        branch_color = '{RED}' if git_dirty_working_directory(include_untracked=True) else '{GREEN}'
+        return  f' {branch_color}git:{{{NO_COLOR}}}{curr_branch}'
+
+$PROMPT_FIELDS['curr_branch'] = _curr_branch
+
+$PROMPT = '{env_name: ({})} {cwd}{curr_branch} {prompt_end} '
+$VI_MODE = True

@@ -1,0 +1,6 @@
+# -*- mode: crontab -*-
+
+45 16 * * * /usr/local/bin/granny-reminder odd "Feed the beast"
+40 17 * * * /usr/local/bin/granny-reminder odd "Let's wash some things"
+10 19 * * * /usr/local/bin/granny-reminder even "It's time to go to bathroom"
+15 21 * * * /usr/local/bin/granny-reminder even "It's time to go to bed"

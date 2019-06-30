@@ -1,0 +1,6 @@
+# -*- mode: snippet -*-
+# name: org-file header
+# key: head
+# --
+#+TITLE:     ${1:Untitled Document}
+#+AUTHOR:    Ivan Filatov @justfdot

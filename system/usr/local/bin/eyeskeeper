@@ -1,0 +1,40 @@
+#!/usr/bin/env bash
+
+INTERVAL=1200
+
+function start_over () {
+    # log "Starting over"
+    [[ -n $pid ]] && kill "$pid"
+}
+
+function get_card () {
+    # log "Retrieving enabled card"
+    if [[ $(cat "/sys/class/drm/card0-VGA-1/enabled") = "enabled" ]] ; then
+        DPMS="/sys/class/drm/card0-VGA-1/dpms"
+    else
+        DPMS="/sys/class/drm/card0-LVDS-1/dpms"
+    fi
+}
+
+function show_message () {
+    # [[ $(cat $BRIGHTNESS) -eq 0 ]] && return
+    [[ $(cat $DPMS) != "On" ]] && return
+    # log "Throw a message"
+    notify-send -u low -i glasses "EYES KEEPER" "Get eyes off the screen"
+}
+
+function log () {
+    # %g/^\s-*log/evil-commentary
+    echo "[$(date '+%d.%m.%Y %H:%M:%S')] $1" >> "/tmp/$(basename "$0").log"
+}
+
+trap start_over HUP CONT
+trap get_card USR1
+
+get_card
+
+while true; do
+    # log "New iteration"
+    (sleep $INTERVAL) & pid=$!
+    wait && show_message
+done

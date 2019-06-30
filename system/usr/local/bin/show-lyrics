@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+
+get_field () {
+    cmus-remote --query | grep -m1 "$1" | cut -d' ' -f3-
+}
+
+urxvtc \
+    -name float-window \
+    -g 138x34 \
+    -e sh -c "beet lyrics -p \"$(get_field artist)\" \"$(get_field title)\" | less"

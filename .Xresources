@@ -1,0 +1,129 @@
+! Base16 Tomorrow Night
+! Scheme: Chris Kempson (http://chriskempson.com)
+
+#define base00 #1d1f21
+#define base01 #282a2e
+#define base02 #373b41
+#define base03 #969896
+#define base04 #b4b7b4
+#define base05 #c5c8c6
+#define base06 #e0e0e0
+#define base07 #ffffff
+#define base08 #cc6666
+#define base09 #de935f
+#define base0A #f0c674
+#define base0B #b5bd68
+#define base0C #8abeb7
+#define base0D #81a2be
+#define base0E #b294bb
+#define base0F #a3685a
+
+*foreground:   base05
+#ifdef background_opacity
+*background:   [background_opacity]base00
+#else
+*background:   base00
+#endif
+*cursorColor:  base05
+
+*color0:       base00
+*color1:       base08
+*color2:       base0B
+*color3:       base0A
+*color4:       base0D
+*color5:       base0E
+*color6:       base0C
+*color7:       base05
+
+*color8:       base03
+*color9:       base08
+*color10:      base0B
+*color11:      base0A
+*color12:      base0D
+*color13:      base0E
+*color14:      base0C
+*color15:      base07
+
+
+!--------------------------------------------------------------------------------
+! xft Settings
+!--------------------------------------------------------------------------------
+Xft.dpi: 96
+Xft.autohint: 0
+Xft.lcdfilter: lcddefault
+! Xft.hintstyle: hintfull
+Xft.hintstyle: hintslight
+Xft.hinting: 1
+Xft.antialias: 1
+Xft.rgba: rgb
+
+
+!--------------------------------------------------------------------------------
+! st Settings
+!--------------------------------------------------------------------------------
+st.alpha: 1
+st.font: Hack:pixelsize=14:antialias=true:autohint=true;
+! st.termname: st-256color
+! st.borderpx: 2
+
+
+!--------------------------------------------------------------------------------
+! URXVT Settings
+!--------------------------------------------------------------------------------
+URxvt.intensityStyles: false
+URxvt.depth: 32
+! URxvt.font: xft:Meslo LG S:size=10,xft:FontAwesome:pixelsize=10
+URxvt.font: xft:Hack:size=10,xft:FontAwesome:pixelsize=10
+URxvt.letterSpace: -1
+URxvt.lineSpace: 0
+URxvt.internalBorder: 4
+URxvt.externalBorder: 1
+URxvt.scrollBar: false
+! URxvt.cursorColor:	white
+! URxvt.perl-ext-common: default,matcher,resize-font
+URxvt.perl-ext-common: font-size
+URxvt.url-launcher: /usr/bin/google-chrome-stable
+URxvt.urgentOnBell: True
+URxvt.underlineURLs: True
+URxvt.matcher.button: 1
+
+
+
+! !--------------------------------------------------------------------------------
+! ! ROFI Color theme
+! !--------------------------------------------------------------------------------
+rofi.width: 100
+rofi.lines: 10
+rofi.font: Meslo LG S 10
+rofi.bw: 0
+rofi.padding: 340
+rofi.eh: 2
+rofi.separator-style: solid
+rofi.hide-scrollbar: true
+rofi.threads: 0
+! rofi.matching: fuzzy
+
+rofi.kb-remove-to-eol: Control+Shift+d
+rofi.kb-accept-entry: Return,KP_Enter
+rofi.kb-row-up: Up,Control+k
+rofi.kb-row-down: Down,Control+j
+
+! tomorrow-night theme
+!                  ´background´, ´border´, ´separator´
+rofi.color-window: #F81d1f21,    #c5c8c6,  #c5c8c6
+! State:           ´bg´,         ´fg´,     ´bgalt´,   ´hlbg´,    ´hlfg´
+rofi.color-normal: #00000000,    #c5c8c6,  #00000000, #00000000, #f0c674
+rofi.color-active: #00000000,    #268bd2,  #00000000, #EE268bd2, #fdf6e3
+rofi.color-urgent: #00000000,    #dc322f,  #00000000, #EEdc322f, #fdf6e3
+! ! gruvbox theme
+! !                  ´background´, ´border´, ´separator´
+! rofi.color-window: #F8282828, #A89984, #A89984
+! ! State:           ´bg´,     ´fg´,     ´bgalt´,  ´hlbg´,     ´hlfg´
+! rofi.color-normal: #00000000, #ebdbb2, #00000000, #00000000, #fabd2f
+! rofi.color-active: #00000000, #268bd2, #00000000, #EE268bd2, #fdf6e3
+! rofi.color-urgent: #00000000, #dc322f, #00000000, #EEdc322f, #fdf6e3
+
+!--------------------------------------------------------------------------------
+! Emacs settings
+!--------------------------------------------------------------------------------
+! Emacs.font: Meslo LG S-11

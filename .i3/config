@@ -1,0 +1,244 @@
+# Variables
+set $mod mod4
+
+set $ws1 ""
+set $ws2 ""
+set $ws3 ""
+set $ws4 ""
+set $ws5 ""
+set $ws6 ""
+set $ws7 ""
+# set $ws8 "%{F#f0c674}%{F-}"
+set $ws8 ""
+set $ws0 ""
+# set $ws1 web
+# set $ws2 term
+# set $ws3 dev
+# set $ws4 music
+# set $ws5 torrent
+# set $ws6 inc
+# set $ws7 misc
+# set $ws9 samsung
+# set $ws0 arandr
+
+set $exec-noid exec --no-startup-id
+
+workspace_layout tabbed
+
+# jump from wsX to wsY and back to wsX by pressing only mod+Y
+workspace_auto_back_and_forth yes
+bindsym $mod+Tab workspace back_and_forth
+
+# The "smart" setting hides borders on workspaces with only one window visible
+hide_edge_borders smart
+
+# Set the gaps feature
+# bindsym $mod+g gaps inner current set 20
+gaps outer 0
+gaps inner 20
+smart_gaps on
+
+# new_window pixel 3
+for_window [class="^.*"] border pixel 3
+for_window [window_role="pop-up"] border none
+for_window [window_role="bubble"] border none
+for_window [window_role="task_dialog"] border none
+for_window [window_role="Preferences"] border none
+for_window [window_type="dialog"] border none
+for_window [window_type="menu"] border none
+
+# Font for window titles
+font pango: Meslo LG M 0
+
+# Use Mouse+$mod to drag floating windows to their wanted position
+floating_modifier $mod
+
+focus_follows_mouse no
+
+# start a terminal
+bindsym $mod+Return exec sakura
+#i3-sensible-terminal
+
+# kill focused window
+bindsym $mod+c kill
+#$mod+Shift+q kill
+
+# change focus
+bindsym $mod+j focus down
+bindsym $mod+k focus up
+bindsym $mod+h focus left
+bindsym $mod+l focus right
+# alternatively, you can use the cursor keys:
+bindsym $mod+Down focus down
+bindsym $mod+Up focus up
+bindsym $mod+Left focus left
+bindsym $mod+Right focus right
+# move focused window
+bindsym $mod+Shift+j move down
+bindsym $mod+Shift+k move up
+bindsym $mod+Shift+h move left
+bindsym $mod+Shift+l move right
+# alternatively, you can use the cursor keys:
+bindsym $mod+Shift+Down move down
+bindsym $mod+Shift+Up move up
+bindsym $mod+Shift+Left move left
+bindsym $mod+Shift+Right move right
+# swap focused container in direction
+bindsym $mod+Ctrl+j mark swap; focus down; swap container with mark swap; unmark swap
+bindsym $mod+Ctrl+k mark swap; focus up; swap container with mark swap; unmark swap
+bindsym $mod+Ctrl+h mark swap; focus left; swap container with mark swap; unmark swap
+bindsym $mod+Ctrl+l mark swap; focus right; swap container with mark swap; unmark swap
+
+
+# split in horizontal orientation
+bindsym $mod+Ctrl+Shift+h split h
+# split in vertical orientation
+bindsym $mod+Ctrl+Shift+v split v
+
+# enter fullscreen mode for the focused container
+bindsym $mod+f fullscreen
+
+# change container layout (stacked, tabbed, toggle split)
+bindsym $mod+s layout stacking
+bindsym $mod+w layout tabbed
+bindsym $mod+e layout toggle split
+
+# toggle tiling / floating
+bindsym $mod+Shift+space floating toggle
+# change focus between tiling / floating windows
+bindsym $mod+space focus mode_toggle
+
+# focus the parent container
+bindsym $mod+p focus parent
+# focus the child container
+bindsym $mod+d focus child
+
+# switch to workspace
+bindsym $mod+1 workspace $ws1
+bindsym $mod+2 workspace $ws2
+bindsym $mod+3 workspace $ws3
+bindsym $mod+4 workspace $ws4
+bindsym $mod+5 workspace $ws5
+bindsym $mod+6 workspace $ws6
+bindsym $mod+7 workspace $ws7
+bindsym $mod+8 workspace $ws8
+bindsym $mod+9 workspace $ws9
+bindsym $mod+0 workspace $ws0
+
+# move focused container to workspace
+bindsym $mod+Shift+1 move container to workspace $ws1
+bindsym $mod+Shift+2 move container to workspace $ws2
+bindsym $mod+Shift+3 move container to workspace $ws3
+bindsym $mod+Shift+4 move container to workspace $ws4
+bindsym $mod+Shift+5 move container to workspace $ws5
+bindsym $mod+Shift+6 move container to workspace $ws6
+bindsym $mod+Shift+7 move container to workspace $ws7
+bindsym $mod+Shift+8 move container to workspace $ws8
+bindsym $mod+Shift+9 move container to workspace $ws9
+bindsym $mod+Shift+0 move container to workspace $ws0
+
+# reload the configuration file
+bindsym $mod+Shift+c reload
+# restart i3 inplace (preserves your layout/session, can be used to upgrade i3)
+bindsym $mod+Shift+r restart
+# restart polybar
+bindsym $mod+Shift+p exec pkill -USR1 polybar
+# exit i3 (logs you out of your X session)
+bindsym $mod+Shift+e exec "i3-nagbar -t warning -m 'You pressed the exit shortcut. Do you really want to exit i3? This will end your X session.' -b 'Yes, exit i3' 'i3-msg exit'"
+
+# Autorun
+$exec-noid pick-peripheral
+# $exec-noid feh --bg-scale ~/img/wallpaper
+# $exec-noid setxkbmap "us,ru" ",winkeys" "ctrl:nocaps,grp_led:caps"
+# $exec-noid urxvtd --quiet --opendisplay --fork
+# $exec-noid compton
+# $exec-noid redshift
+# $exec-noid eyeskeeper
+
+# Hotkeys
+bindsym Control+space $exec-noid "xkblayout-state set +1 && polybar-msg hook keyboard-layout 1"
+# bindsym Control+space $exec-noid "xkblayout-state set +1 && pkill -RTMIN+2 i3blocks"
+bindsym F1 $exec-noid rofi -show run -lines 10 -eh 2 -width 100 -padding 340 -opacity "93" -bw 0
+bindsym $mod+Print $exec-noid scrot '%d.%m.%Y[$wx$h]%T.png' -e 'mv $f /home/justf/img/shots/'
+bindsym $mod+t $exec-noid notify-send -u low -i clock -t 700 "<span size='30000'>$(date +%H:%M)</span>"
+# bindsym $mod+x $exec-noid xset dpms force off
+bindsym $mod+Escape $exec-noid "$HOME/bin/screensaver"
+# set $brightness "/sys/class/backlight/intel_backlight/brightness"
+# bindsym $mod+Escape $exec-noid [[ $(cat $brightness) -ge 4000 ]] && echo -n 0 > $brightness || echo -n 4000 > $brightness
+
+# bindsym $mod+Control+Up $exec-noid "amixer set Master 5%+ && pkill -RTMIN+1 i3blocks"
+# bindsym $mod+Control+Down $exec-noid "amixer set Master 5%- && pkill -RTMIN+1 i3blocks"
+# bindsym $mod+Control+Up $exec-noid "amixer set PCM 5%+ && pkill -RTMIN+1 i3blocks"
+# bindsym $mod+Control+Down $exec-noid "amixer set PCM 5%- && pkill -RTMIN+1 i3blocks"
+bindsym $mod+Control+Up $exec-noid amixer set PCM 5%+
+bindsym $mod+Control+Down $exec-noid amixer set PCM 5%-
+bindsym $mod+Control+1 $exec-noid amixer set PCM 10%
+bindsym $mod+Control+2 $exec-noid amixer set PCM 20%
+bindsym $mod+Control+3 $exec-noid amixer set PCM 30%
+bindsym $mod+Control+4 $exec-noid amixer set PCM 40%
+bindsym $mod+Control+5 $exec-noid amixer set PCM 50%
+bindsym $mod+Control+6 $exec-noid amixer set PCM 60%
+bindsym $mod+Control+7 $exec-noid amixer set PCM 70%
+bindsym $mod+Control+8 $exec-noid amixer set PCM 80%
+bindsym $mod+Control+9 $exec-noid amixer set PCM 90%
+bindsym $mod+Control+0 $exec-noid amixer set PCM 100%
+bindsym $mod+Mod1+Up $exec-noid echo -n 4000 > $brightness
+bindsym $mod+Mod1+Down $exec-noid echo -n 500 > $brightness
+# bindsym XF86MonBrightnessUp $exec-noid xbacklight -set 90%
+# bindsym XF86MonBrightnessDown $exec-noid xbacklight -set 10%
+
+# Floating windows
+for_window [class="Lxappearance"] floating enable
+# for_window [class="(?i)telegram"] floating enable sticky enable resize set 600px 748px move absolute position 766px 0px
+# for_window [class="(?i)sakura" title="emacs-todo"] floating enable sticky enable resize set 694px 748px move absolute position 672px 0px
+for_window [class="emacs-todo"] floating enable sticky enable move absolute position 678px 0px
+for_window [class="URxvt" instance="float-window"] floating enable
+for_window [class="URxvt" instance="float-window-wide"] floating enable, resize set 80ppt 83ppt, move position center
+for_window [class="URxvt" instance="emerge-world"] floating enable, resize set 80ppt 84ppt, move position center, move container to workspace $ws8
+
+# resize set 1128px 628px move absolute position 126px 56px
+# display size 1366x768
+
+# Make the currently focused window a scratchpad
+# bindsym $mod+Shift+minus move scratchpad
+# Show the first scratchpad window
+# bindsym $mod+Escape scratchpad show
+
+# Start i3bar to display a workspace bar
+
+# exec_always --no-startup-id $HOME/.config/polybar/launch.sh
+
+# bar{
+#     i3bar_command             /usr/bin/i3bar
+#     status_command            i3blocks
+#     mode                      dock
+#     workspace_buttons         yes
+#     position                  bottom
+#     font                      pango:Meslo 11px
+#     tray_padding              2px
+
+#     colors{
+#         background            #161719
+#         separator             #161719
+#         statusline            #969896
+
+#         #class                border  backgr. text
+#         focused_workspace     #161719 #161719 #F0C674
+#         active_workspace      #161719 #161719 #F0C674
+#         inactive_workspace    #161719 #161719 #969896
+#         urgent_workspace      #F0C674 #F0C674 #161719
+#     }
+# }
+
+# class                       border  backgr. text    indicator
+client.focused                #C5C8C6 #C5C8C6 #151515 #C5C8C6
+client.focused_inactive       #151617 #151617 #A89984 #A89984
+client.unfocused              #151617 #151617 #A89984 #A89984
+client.urgent                 #F0C674 #F0C674 #151515 #A89984
+
+# client.focused                #689d6a #689d6a #151515 #EBDBB2
+# client.focused_inactive       #151515 #131313 #A89984 #A89984
+# client.unfocused              #151515 #131313 #A89984 #A89984
+# client.urgent                 #FABD2F #FABD2F #151515 #A89984
+
+# vim:filetype=i3

@@ -1,0 +1,9 @@
+# -*- mode: conf -*-
+set output_plugin=alsa
+# set dsp.alsa.device=default
+set dsp.alsa.device=hw:2
+set mixer.alsa.channel=
+set mixer.alsa.device=
+set softvol=false
+set show_current_bitrate=true
+set replaygain=track

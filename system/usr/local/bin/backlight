@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+
+file="/sys/class/backlight/intel_backlight/brightness"
+current=$(cat "$file")
+off=0
+on=4000
+
+[[ "$current" -ge "$on" ]] && echo -n "$off" > "$file" || echo -n "$on" > "$file"

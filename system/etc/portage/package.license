@@ -1,0 +1,23 @@
+# -*- mode: conf -*-
+
+# required by www-plugins/adobe-flash (argument)
+www-plugins/adobe-flash AdobeFlash-11.x
+
+# required by google-chrome (argument)
+www-client/google-chrome google-chrome
+# required by google-chrome-unstable (argument)
+www-client/google-chrome-unstable google-chrome
+# required by vivaldi (argument)
+www-client/vivaldi Vivaldi
+
+# required by virtualbox-bin (argument)
+app-emulation/virtualbox-bin PUEL
+
+# The following package(s) are using licenses which aren't covered by
+# ACCEPT_LICENSE="@FREE" setting nor have entries in the package.license file:
+sys-kernel/linux-firmware linux-fw-redistributable no-source-code
+media-fonts/font-bh-type1 bh-luxi
+media-fonts/font-bh-ttf bh-luxi
+app-editors/visual-studio-code Microsoft
+app-editors/sublime-text Sublime
+app-arch/unrar unRAR

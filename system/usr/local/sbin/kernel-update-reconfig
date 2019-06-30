@@ -1,0 +1,16 @@
+#!/bin/bash
+
+currentversion=$(uname -r)
+
+mount /dev/sda2 /boot && \
+cp /boot/config-"$currentversion" /usr/src/linux/.config && \
+cp /boot/config-"$currentversion" ~/kernel-config-"$currentversion" && \
+cd /usr/src/linux && \
+make olddefconfig && \
+make menuconfig && \
+make -j9 modules_prepare && \
+make -j9 && make -j9 modules_install && make install && \
+grub-mkconfig -o /boot/grub/grub.cfg && \
+umount /boot
+
+emerge @module-rebuild

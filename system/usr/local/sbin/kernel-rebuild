@@ -1,0 +1,10 @@
+#!/bin/bash
+
+mount /dev/sda2 /boot && \
+cd /usr/src/linux && \
+make -j9 modules_prepare && \
+make -j9 && make -j9 modules_install && make install && \
+grub-mkconfig -o /boot/grub/grub.cfg && \
+umount /boot
+
+emerge @module-rebuild

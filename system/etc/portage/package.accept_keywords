@@ -1,0 +1,81 @@
+# -*- mode: conf -*-
+
+# required by x11-misc/tinynotify-send-1.2.1-r1::gentoo
+x11-libs/libtinynotify-cli ~amd64
+# required by x11-libs/libtinynotify-cli-1.2.1::gentoo
+# required by x11-misc/tinynotify-send-1.2.1-r1::gentoo
+x11-libs/libtinynotify ~amd64
+x11-misc/tinynotify-send ~amd64
+
+# required by app-editors/neovim-0.1.7::gentoo
+dev-libs/libvterm ~amd64
+# required by app-editors/neovim-0.1.7::gentoo
+dev-libs/msgpack ~amd64
+# required by app-editors/neovim-0.3.7::gentoo[tui]
+=dev-libs/unibilium-2.0.0 ~amd64
+app-editors/neovim ~amd64
+
+# required by app-crypt/keybase-1.0.44-r1::gentoo
+app-crypt/kbfs ~amd64
+app-crypt/keybase ~amd64
+
+app-admin/lnav ~amd64
+app-editors/sublime-text ~amd64
+app-mobilephone/heimdall ~amd64
+app-portage/install-mask ~amd64
+dev-python/PyDbLite ~amd64
+dev-python/falcon ~amd64
+dev-python/pyliblzma ~amd64
+media-fonts/fontawesome ~amd64
+media-gfx/imv ~amd64
+media-gfx/w3mimgfb ~amd64
+net-misc/httpie ~amd64
+net-proxy/redsocks ~amd64
+sys-apps/yarn ~amd64
+www-client/google-chrome-unstable ~amd64
+
+# from overlay jorgicio
+app-editors/visual-studio-code ~amd64
+x11-themes/materia-theme ~amd64
+x11-themes/flat-remix-icon-theme ~amd64
+
+
+media-sound/beets ~amd64
+# required by beets (argument)
+dev-python/jellyfish ~amd64
+# required by beets (argument)
+dev-python/munkres ~amd64
+
+# required by sway (argument)
+# gui-libs/wlroots ~amd64
+# gui-wm/sway ~amd64
+# app-text/scdoc ~amd64
+# gui-apps/swayidle ~amd64
+# gui-apps/swaylock ~amd64
+# gui-apps/swaybg ~amd64
+
+dev-python/pipenv ~amd64
+# required by dev-python/pew-1.1.1::gentoo
+# required by dev-python/pipenv-9.0.0-r2::gentoo
+# required by pipenv (argument)
+=dev-python/pythonz-bd-1.11.4 ~amd64
+# required by dev-python/pythonz-bd-1.11.4::gentoo[-python_targets_python3_7,-python_targets_python3_5,python_targets_python3_6]
+# required by dev-python/pew-1.1.1::gentoo
+# required by dev-python/pipenv-9.0.0-r2::gentoo
+# required by pipenv (argument)
+=dev-python/resumable-urlretrieve-0.1.5 ~amd64
+# required by dev-python/pipenv-9.0.0-r2::gentoo
+# required by pipenv (argument)
+=dev-python/pew-1.1.1 ~amd64
+# required by dev-python/pew-1.1.1::gentoo
+# required by dev-python/pipenv-9.0.0-r2::gentoo
+# required by pipenv (argument)
+=dev-python/shutilwhich-1.1.0 ~amd64
+
+
+# required by qtile (argument)
+x11-wm/qtile ~amd64
+dev-python/cairocffi ~amd64
+
+
+app-admin/rcm ~amd64

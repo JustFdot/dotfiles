@@ -1,0 +1,16 @@
+#!/usr/bin/env bash
+
+info_file="$HOME/.torrents-info"
+
+for video_name do
+    file_name="$(basename "$(readlink "$video_name")")"
+    torrent_id="$(grep "$file_name" "$info_file" | cut -d':' -f2)"
+    if [[ -n "$torrent_id" ]] ; then
+        for id in $torrent_id ; do
+            deluge-console rm --remove_data "$id" \
+            && sed -i "/$id/d" "$info_file"
+        done
+        rm -rf "$video_name" \
+        && notify-send -i remove "VIDEO REMOVED" "Any mentions of item <b>$video_name</b> has been removed"
+    fi
+done
