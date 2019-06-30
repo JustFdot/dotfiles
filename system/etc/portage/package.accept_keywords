@@ -76,6 +76,3 @@ dev-python/pipenv ~amd64
 # required by qtile (argument)
 x11-wm/qtile ~amd64
 dev-python/cairocffi ~amd64
-
-
-app-admin/rcm ~amd64

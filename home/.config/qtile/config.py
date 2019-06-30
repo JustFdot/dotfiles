@@ -163,7 +163,7 @@ keys = [
         f'scrot "qtile.png" -e "mv $f {home}/img/shots/"')),
     # Key([mod], 'Print', lazy.spawn(
     #     f'scrot "%d.%m.%Y[$wx$h]%T.png" -e "mv $f {home}/img/shots/"')),
-    Key([mod], 'Escape', lazy.spawn(f'{home}/bin/screensaver')),
+    Key([mod], 'Escape', lazy.spawn(f'/usr/local/bin/screensaver')),
     Key(['control'], 'space',
         lazy.spawn('xkblayout-state set +1'),
         lazy.function(update_widget, 'keyboard')),
