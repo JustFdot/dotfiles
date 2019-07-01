@@ -128,8 +128,11 @@ determine the exact padding."
 
    (cursor :background fg)
    (org-code :foreground dark-yellow)
-   (org-quote :inherit 'font-lock-comment-face :background base3 :italic italic)
-   (outline-2 :foreground fg :bold bold)
+   (org-quote :foreground grey :background modeline-bg :italic italic)
+   (org-block-begin-line :foreground grey :background modeline-bg)
+   (org-block-end-line :inherit 'org-block-begin-line)
+   (outline-1 :foreground blue :background nil :bold bold)
+   (outline-2 :foreground fg :background nil :bold bold)
    (fringe :foreground base4 :inherit 'hl-line)
    (avy-lead-face :foreground yellow :background bg :bold bold)
    (avy-lead-face-0 :inherit 'avy-lead-face :weight 'normal :foreground (doom-darken yellow 0.2))
