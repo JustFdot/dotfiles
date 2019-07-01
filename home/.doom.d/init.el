@@ -227,6 +227,9 @@
 (after! popup
   (set-popup-rule! "^\\*Customize" :slot 2 :side 'right :size 0.5 :select t :quit t))
 
+(after! org-bullets
+  (setq org-bullets-bullet-list '("" "" "" "" "")))
+
 (def-package-hook! doom-modeline
   :post-config
   (doom-modeline-def-modeline 'main
