@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 WORKDIR="/tmp/gotsubs"
 GOTDIR="/home/justf/video/GOT (Season 07) DUB 720"
