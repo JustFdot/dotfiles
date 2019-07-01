@@ -230,6 +230,9 @@
 (after! org-bullets
   (setq org-bullets-bullet-list '("" "" "" "" "")))
 
+(after! ranger
+  (setq ranger-show-hidden t))
+
 (def-package-hook! doom-modeline
   :post-config
   (doom-modeline-def-modeline 'main
