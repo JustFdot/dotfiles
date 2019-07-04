@@ -147,13 +147,13 @@ class Groups(widget.GroupBox):
 
         if button == BUTTON_LEFT:
             group = self.get_clicked_group(x, y)
-            if group is self.qtile.currentGroup:
-                group = self.qtile.currentScreen.previous_group
+            if group is self.qtile.current_group:
+                group = self.qtile.current_screen.previous_group
             if not self.disable_drag:
                 self.clicked = group
 
         if group:
-            self.bar.screen.setGroup(group)
+            self.bar.screen.set_group(group)
 
 
 class StackItems(CustomWidgetText):
@@ -176,10 +176,10 @@ class StackItems(CustomWidgetText):
 
     @DEBUG_MODE
     def get_text(self):
-        group = self.qtile.currentScreen.group
+        group = self.qtile.current_screen.group
         stack = self.get_clients(group.layout)
 
-        if group.currentWindow is not None and group.currentWindow.floating:
+        if group.current_window is not None and group.current_window.floating:
             return f'<span {attr_color_normal} {attr_alpha}>FLOATING</span>'
 
         if not stack or len(stack) < 2:
@@ -187,7 +187,7 @@ class StackItems(CustomWidgetText):
 
         item_icon = []
         for item in stack:
-            if item is group.currentWindow:
+            if item is group.current_window:
                 item_icon.append('▣')
             else:
                 item_icon.append(f'<span {attr_alpha}>□</span>')
@@ -201,10 +201,10 @@ class StackItems(CustomWidgetText):
 
     def button_press(self, x, y, button):
         if button == BUTTON_LEFT:
-            self.qtile.currentLayout.cmd_down()
+            self.qtile.current_layout.cmd_down()
             self.update()
         elif button == BUTTON_RIGHT:
-            self.qtile.currentLayout.cmd_up()
+            self.qtile.current_layout.cmd_up()
             self.update()
 
 
