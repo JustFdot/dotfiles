@@ -59,7 +59,7 @@ home = os.path.expanduser('~')
 
 def update_widget(qtile, widget):
     try:
-        qtile.widgetMap[widget].update()
+        qtile.widgets_map[widget].update()
     except KeyError:
         logger.exception(f'Wrong widget name: {widget}')
     except AttributeError:
