@@ -13,7 +13,8 @@
        ;;japanese
 
        :completion
-       company           ; the ultimate code completion backend
+       (company           ; the ultimate code completion backend
+        +childframe)
        ;;helm              ; the *other* search engine for love and life
        ;;ido               ; the other *other* search engine...
        ivy               ; a search engine for love and life
@@ -21,7 +22,7 @@
        :ui
        deft              ; notational velocity for Emacs
        doom              ; what makes DOOM look the way it does
-       ;; doom-dashboard    ; a nifty splash screen for Emacs
+       doom-dashboard    ; a nifty splash screen for Emacs
        doom-quit         ; DOOM quit-message prompts when you quit Emacs
        ;;fill-column       ; a `fill-column' indicator
        hl-todo           ; highlight TODO/FIXME/NOTE tags
@@ -236,50 +237,11 @@
 (def-package-hook! doom-modeline
   :post-config
   (doom-modeline-def-modeline 'main
-    '(bar window-number matches buffer-info remote-host buffer-position selection-info)
-    '(objed-state misc-info persp-name irc mu4e github debug input-method buffer-encoding lsp major-mode process vcs checker "  "))
-
-  (doom-modeline-def-modeline 'special
-    '(bar window-number matches buffer-info-simple buffer-position selection-info)
-    '(objed-state misc-info persp-name debug input-method irc-buffers buffer-encoding lsp major-mode process checker "  "))
-
-  (defun doom-modeline-update-persp-name (&rest _)
-    "Update perspective name in mode-line."
-    (setq doom-modeline--persp-name
-          ;; Support `persp-mode', while not support `perspective'
-          (when (and doom-modeline-persp-name
-                    (bound-and-true-p persp-mode)
-                    (fboundp 'safe-persp-name)
-                    (fboundp 'get-current-persp))
-            (let* ((persp (get-current-persp))
-                   (name (safe-persp-name persp))
-                   (icon (doom-modeline-icon-material "aspect_ratio" :v-adjust -0.17)))
-              (unless (string-equal persp-nil-name name)
-                (concat
-                (doom-modeline-spc)
-                (propertize
-                  (format "%s %s" icon name)
-                  'face (if (and persp
-                                (not (persp-contain-buffer-p (current-buffer) persp)))
-                            'doom-modeline-persp-buffer-not-in-persp
-                          'doom-modeline-persp-name)
-                  'help-echo "mouse-1: Switch perspective
-  mouse-2: Show help for minor mode"
-                  'mouse-face 'mode-line-highlight
-                  'local-map (let ((map (make-sparse-keymap)))
-                              (define-key map [mode-line mouse-1]
-                                #'persp-switch)
-                              (define-key map [mode-line mouse-2]
-                                (lambda ()
-                                  (interactive)
-                                  (describe-function 'persp-mode)))
-                              map))
-                (doom-modeline-spc)))))))
-
+    '(bar matches buffer-info remote-host buffer-position selection-info)
+    '(misc-info persp-name debug input-method buffer-encoding lsp major-mode process vcs checker " "))
 
   (setq doom-modeline-icon t
-        doom-modeline-major-mode-icon t
-        doom-modeline-bar-width 4
         doom-modeline-persp-name t
+        doom-modeline-persp-name-icon t
         doom-modeline-buffer-modification-icon nil
-        inhibit-compacting-font-caches t))
+        doom-modeline-buffer-file-name-style 'truncate-upto-project))
