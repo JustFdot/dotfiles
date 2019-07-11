@@ -13,6 +13,6 @@ smartplaylist:
     playlist_dir: ~/.mpd/playlists
     playlists:
         - name: artist-year-ordered.m3u
-          query: ['artist+', 'year+']
+          query: 'albumartist+ year+ album+ track+'
         - name: added-ordered.m3u
           query: 'added+'
