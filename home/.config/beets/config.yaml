@@ -6,13 +6,16 @@ import:
 ui:
     color: yes
 
-plugins: edit smartplaylist mpdupdate
+plugins: replaygain edit smartplaylist mpdupdate
+
+replaygain:
+    backend: gstreamer
 
 smartplaylist:
     relative_to: ~/sound
     playlist_dir: ~/.mpd/playlists
     playlists:
-        - name: artist-year-ordered.m3u
+        - name: full.m3u
           query: 'albumartist+ year+ album+ track+'
-        - name: added-ordered.m3u
-          query: 'added+'
+        - name: latest-first.m3u
+          query: 'added-'
