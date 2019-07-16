@@ -1,0 +1,66 @@
+########################################
+# gmail.com
+########################################
+IMAPAccount gmail
+Host imap.gmail.com
+User justfdot@gmail.com
+PassCmd "pass email/justfdot@gmail.com | head -n1"
+Port 993
+AuthMechs LOGIN
+SSLType IMAPS
+CertificateFile /etc/ssl/certs/ca-certificates.crt
+# CertificateFile /usr/local/etc/openssl/cert.pem  # MacOS
+
+##
+# Remote
+IMAPStore gmail-remote
+Account gmail
+
+# Local
+MaildirStore gmail-local
+Path ~/.mail/
+Inbox ~/.mail/Inbox
+
+## Connections
+Channel gmail-all
+Master :gmail-remote:"[Gmail]/All Mail"
+Slave :gmail-local:"All Mail"
+Create Slave
+Expunge Both
+SyncState *
+
+Channel gmail-inbox
+Master :gmail-remote:"INBOX"
+Slave :gmail-local:"Inbox"
+Create Slave
+Expunge Both
+SyncState *
+
+Channel gmail-drafts
+Master :gmail-remote:"[Gmail]/Drafts"
+Slave :gmail-local:"Drafts"
+Create Slave
+Expunge Both
+SyncState *
+
+Channel gmail-sent
+Master :gmail-remote:"[Gmail]/Sent Mail"
+Slave :gmail-local:"Sent Mail"
+Create Slave
+Expunge Both
+SyncState *
+
+Channel gmail-trash
+Master :gmail-remote:"[Gmail]/Trash"
+Slave :gmail-local:"Trash"
+Create Slave
+Expunge Both
+SyncState *
+
+## Groups
+Group gmail
+Channel gmail-all
+Channel gmail-inbox
+Channel gmail-drafts
+Channel gmail-sent
+Channel gmail-trash
