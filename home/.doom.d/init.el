@@ -13,10 +13,10 @@
        ;;japanese
 
        :completion
-       (company           ; the ultimate code completion backend
+       (company          ; the ultimate code completion backend
         +childframe)
-       ;;helm              ; the *other* search engine for love and life
-       ;;ido               ; the other *other* search engine...
+       ;;helm            ; the *other* search engine for love and life
+       ;;ido             ; the other *other* search engine...
        ivy               ; a search engine for love and life
 
        :ui
@@ -57,7 +57,7 @@
 
        :emacs
        (dired            ; making dired pretty [functional]
-       +ranger         ; bringing the goodness of ranger to dired
+        +ranger         ; bringing the goodness of ranger to dired
        ;;+icons          ; colorful icons for dired-mode
         )
        electric          ; smarter, keyword-based electric-indent
@@ -152,7 +152,7 @@
        ;;vala              ; GObjective-C
 
        :email
-       ;;(mu4e +gmail)       ; WIP
+       (mu4e +gmail)       ; WIP
        ;;notmuch             ; WIP
        ;;(wanderlust +gmail) ; WIP
 
@@ -233,6 +233,22 @@
 
 (after! ranger
   (setq ranger-show-hidden t))
+
+(def-package-hook! mu4e
+  :post-config
+    (setq mu4e-headers-fields '((:human-date . 12)
+                                (:flags . 4)
+                                (:from . 25)
+                                (:subject))
+          shr-use-colors nil)
+    (set-email-account! "gmail"
+    '((mu4e-sent-folder       . "/sent")
+      (mu4e-drafts-folder     . "/drafts")
+      (mu4e-trash-folder      . "/trash")
+      (smtpmail-smtp-user     . "justfdot@gmail.com")
+      (user-mail-address      . "justfdot@gmail.com")
+      (mu4e-compose-signature . "---\nIvan Filatov"))
+    t))
 
 (def-package-hook! doom-modeline
   :post-config

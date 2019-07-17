@@ -5,5 +5,4 @@
 ;; (package! some-package)
 ;; (package! another-package :recipe (:fetcher github :repo "username/repo"))
 ;; (package! builtin-package :disable t)
-(package! vi-tilde-fringe :disable t)
-(package! line-numbers :disable t)
+;; (package! doom-modeline :recipe (:fetcher github :repo "justfdot/doom-modeline"))
