@@ -2,12 +2,19 @@
 
 eyeskeeper_pid=$(pgrep -f eyeskeeper)
 
+toggle_layout () {
+    [[ "$1" -ne 0 ]] && xkblayout-state set +1
+}
+
 if xrandr --query | grep -q "VGA1 connected" ; then
+    current_layout=$(xkblayout-state print %c)
+    toggle_layout "$current_layout"
     kill -STOP "$eyeskeeper_pid"
     i3lock --image "$HOME/img/lock-text.png" --nofork &
-    wait $! && kill -CONT "$eyeskeeper_pid"
-    # echo $! > /tmp/i3lock.pid
-    # wait $! && rm /tmp/i3lock.pid
+    wait $! && {
+        kill -CONT "$eyeskeeper_pid"
+        toggle_layout "$current_layout"
+    }
 else
     brightness_file="/sys/class/backlight/intel_backlight/brightness"
     brightness=$(cat $brightness_file)
