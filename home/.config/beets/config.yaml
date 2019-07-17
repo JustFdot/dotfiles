@@ -6,10 +6,16 @@ import:
 ui:
     color: yes
 
-plugins: replaygain edit smartplaylist mpdupdate
+plugins: replaygain edit smartplaylist mpdupdate follow
 
 replaygain:
     backend: gstreamer
+
+follow:
+  auto: yes
+  email: justfdot@gmail.com
+  password: myopenpassword
+  userid: 2hdgnu0i19k66fuqpf8k25xl9qpbjp
 
 smartplaylist:
     relative_to: ~/sound
