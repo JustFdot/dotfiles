@@ -1,5 +1,6 @@
 app-admin/lnav
 app-admin/logrotate
+app-admin/pass
 app-admin/sudo
 app-admin/sysklogd
 app-admin/testdisk
@@ -63,6 +64,7 @@ dev-python/dbus-python
 dev-python/falcon
 dev-python/flake8
 dev-python/fonttools
+dev-python/gst-python
 dev-python/guessit
 dev-python/jinja
 dev-python/netifaces
@@ -116,6 +118,8 @@ net-analyzer/traceroute
 net-dns/libidn
 net-irc/weechat
 net-libs/nodejs
+net-mail/isync
+net-mail/mu
 net-misc/dhcpcd
 net-misc/httpie
 net-misc/netifrc
@@ -160,7 +164,6 @@ sys-process/lsof
 www-client/google-chrome
 www-client/google-chrome-unstable
 www-client/links
-www-client/surfraw
 www-client/vivaldi
 www-client/w3m
 www-plugins/adobe-flash
