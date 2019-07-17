@@ -1,101 +1,65 @@
 # -*- mode: conf -*-
 
+app-admin/pass zsh-completion
+app-arch/pbzip2 symlink
+app-arch/pigz symlink
+app-editors/emacs xft gtk3 libxml2 -acl -alsa -gpm
+app-misc/tmux vim-syntax
 app-text/asciidoc python_single_target_python2_7
-
-
-# required by gnome-base/gnome-keyring-3.20.0::gentoo
-# required by app-crypt/libsecret-0.18.5::gentoo
-app-crypt/pinentry gnome-keyring
-
-
-# required by dev-util/electron-1.3.13-r1::gentoo[system-ffmpeg]
-# required by app-editors/atom-1.13.1::gentoo
-# required by app-editors/atom (argument)
-# >=media-video/ffmpeg-3.2.4 opus vpx
-
-
-net-p2p/deluge console webinterface
-# required by net-p2p/deluge-1.3.15-r2::gentoo
-# required by deluge (argument)
-net-libs/libtorrent-rasterbar python
-# required by net-libs/libtorrent-rasterbar-1.1.5-r1::gentoo[python]
-# required by net-p2p/deluge-1.3.15-r2::gentoo
-# required by deluge (argument)
-dev-libs/boost python icu
-
-
-app-editors/emacs xft gtk3 -acl -alsa -gpm
-# -gif -jpeg -png -tiff
-
-
-media-video/ffmpeg x265 libass openssl
-
-
+dev-lang/python sqlite -bluetooth
 media-fonts/fontawesome -ttf
-
-
+media-libs/harfbuzz icu
+media-sound/cmus cue
+media-video/ffmpeg x265 libass openssl
+net-misc/iputils -caps -filecaps
+net-p2p/rtorrent xmlrpc
 sys-kernel/gentoo-sources symlink
-
-
 www-client/google-chrome -l10n_*
 www-client/google-chrome-unstable -l10n_*
 www-client/vivaldi -l10n_*
-
-
-media-libs/harfbuzz icu
-
-
-x11-drivers/xf86-video-intel dri3 xvmc
-
-
-net-misc/iputils -caps -filecaps
-
-
+www-client/w3m imlib
 www-servers/nginx vim-syntax
-
-
+www-servers/uwsgi python
+x11-drivers/xf86-video-intel dri3 xvmc
 x11-misc/polybar ipc i3wm -mpd -network
-
-
-dev-lang/python sqlite -bluetooth
-
-
 x11-misc/rofi windowmode
-
-
-net-p2p/rtorrent xmlrpc
-
-
 x11-terms/rxvt-unicode xft 256-color
-
-
 x11-terms/st savedconfig
 
 
-app-misc/tmux vim-syntax
 
-
-www-servers/uwsgi python
-
+# #### ########
+# With requires
+# #### ########
 
 app-editors/vim perl python gpm vim-pager
-# required by app-editors/neovim-0.1.7::gentoo
-# required by app-editors/neovim (argument)
->=dev-lua/mpack-1.0.4 luajit
-# required by app-editors/neovim-0.1.7::gentoo
-# required by app-editors/neovim (argument)
->=dev-lua/lpeg-1.0.1 luajit
+# required by app-editors/neovim
+dev-lua/mpack luajit
+dev-lua/lpeg luajit
+
+media-sound/beets gstreamer replaygain
+# required by media-sound/beets
+media-plugins/gst-plugins-meta ffmpeg
+
+# required by gnome-base/gnome-keyring
+# required by app-crypt/libsecret
+app-crypt/pinentry gnome-keyring
+
+net-p2p/deluge console webinterface
+# required by deluge
+net-libs/libtorrent-rasterbar python
+# required by deluge
+dev-libs/boost python icu
+
+# Drop python2 support to solve cairocffi-1.0 update conflict
+x11-wm/qtile PYTHON_TARGETS: -python2_7
+dev-python/cairocffi PYTHON_TARGETS: -python2_7
 
 
-www-client/w3m imlib
 
-
-# x11-base/xorg-server -suid
-
-
-app-arch/pbzip2 symlink
-app-arch/pigz symlink
-
+# ######## ########
+# Multilib packages
+# ######## ########
 
 # required by x11-libs/libXext-1.3.3-r1::gentoo
 # required by x11-libs/libvdpau-1.1.1::gentoo[dri]
@@ -206,12 +170,6 @@ app-arch/pigz symlink
 >=virtual/libiconv-0-r2 abi_x86_32
 
 
-media-sound/cmus cue
-
-
-# Drop python2 support to solve cairocffi-1.0 update conflict
-x11-wm/qtile PYTHON_TARGETS: -python2_7
-dev-python/cairocffi PYTHON_TARGETS: -python2_7
 
 # ####### #######
 # Wayland support
