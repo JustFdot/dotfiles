@@ -10,11 +10,12 @@ if xrandr --query | grep -q "VGA1 connected" ; then
     current_layout=$(xkblayout-state print %c)
     toggle_layout "$current_layout"
     kill -STOP "$eyeskeeper_pid"
-    i3lock --image "$HOME/img/lock-text.png" --nofork &
-    wait $! && {
-        kill -CONT "$eyeskeeper_pid"
-        toggle_layout "$current_layout"
-    }
+    i3lock \
+        --image "$HOME/img/lock-text.png" \
+        --nofork & wait $! && {
+            toggle_layout "$current_layout"
+            kill -CONT "$eyeskeeper_pid"
+        }
 else
     brightness_file="/sys/class/backlight/intel_backlight/brightness"
     brightness=$(cat $brightness_file)
