@@ -19,47 +19,40 @@ Account gmail
 # Local
 MaildirStore gmail-local
 Path ~/.mail/
-Inbox ~/.mail/Inbox
+Inbox ~/.mail/inbox
 
 ## Connections
-Channel gmail-all
-Master :gmail-remote:"[Gmail]/All Mail"
-Slave :gmail-local:"All Mail"
-Create Slave
-Expunge Both
-SyncState *
-
 Channel gmail-inbox
 Master :gmail-remote:"INBOX"
-Slave :gmail-local:"Inbox"
+Slave :gmail-local:"inbox"
 Create Slave
 Expunge Both
 SyncState *
 
 Channel gmail-drafts
 Master :gmail-remote:"[Gmail]/Drafts"
-Slave :gmail-local:"Drafts"
+Slave :gmail-local:"drafts"
 Create Slave
 Expunge Both
 SyncState *
 
 Channel gmail-sent
 Master :gmail-remote:"[Gmail]/Sent Mail"
-Slave :gmail-local:"Sent Mail"
+Slave :gmail-local:"sent"
 Create Slave
 Expunge Both
 SyncState *
 
 Channel gmail-trash
 Master :gmail-remote:"[Gmail]/Trash"
-Slave :gmail-local:"Trash"
+Slave :gmail-local:"trash"
 Create Slave
 Expunge Both
 SyncState *
 
 ## Groups
 Group gmail
-Channel gmail-all
+# Channel gmail-all
 Channel gmail-inbox
 Channel gmail-drafts
 Channel gmail-sent
