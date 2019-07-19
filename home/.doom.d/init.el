@@ -133,8 +133,8 @@
         +habit           ; Keep track of your habits
         +present         ; Emacs for presentations
         +protocol)       ; Support for org-protocol:// links
-       ;;perl              ; write code no one else can comprehend
-       ;;php               ; perl's insecure younger brother
+       perl              ; write code no one else can comprehend
+       php               ; perl's insecure younger brother
        ;;plantuml          ; diagrams for confusing people more
        ;;purescript        ; javascript, but functional
        python            ; beautiful is better than ugly
@@ -238,7 +238,7 @@
   :post-config
     (setq mu4e-headers-fields '((:human-date . 12)
                                 (:flags . 4)
-                                (:from . 25)
+                                (:from-or-to . 25)
                                 (:subject))
           shr-use-colors nil)
     (set-email-account! "gmail"
