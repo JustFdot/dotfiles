@@ -1,0 +1,17 @@
+#!/usr/bin/env bash
+
+typeset -A format
+format=(
+    [green]=$(tput setaf 10)
+    [red]=$(tput setaf 9)
+    [bold]=$(tput bold)
+    [reset]=$(tput sgr 0)
+)
+
+header () {
+    echo -e "\n ${format[red]}*${format[reset]} $1\n"
+}
+
+info () {
+    echo -e " ${format[green]}*${format[reset]} $1"
+}
