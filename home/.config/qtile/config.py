@@ -66,6 +66,19 @@ def update_widget(qtile, widget):
         logger.exception(f'Widget {widget} has no method update')
 
 
+@DEBUG_MODE
+def terminal(qtile=None, execute=None):
+    cmd = 'st'
+    with open('/tmp/active-monitor', 'r') as f:
+        if 'VGA1' in f.read():
+            cmd = f'{cmd} -f "Hack:pixelsize=20"'
+    if execute:
+        cmd = f'{cmd} -e {execute}'
+
+    # logger.error(pformat(dir(qtile)))
+    return qtile.cmd_spawn(cmd) if qtile is not None else cmd
+
+
 keys = [
 
     # Key([mod], 'h', lazy.layout.left()),
@@ -152,7 +165,7 @@ keys = [
     # Key([mod], 'r', lazy.spawncmd()),
 
     # Run programs
-    Key([mod], 'Return', lazy.spawn('st')),
+    Key([mod], 'Return', lazy.function(terminal)),
     Key([mod], 'r', lazy.spawn('zsh -c "rofi -show run"')),
     # Need to get new time each execute
     # Key([mod], 't', lazy.spawn(
@@ -179,9 +192,13 @@ for num in range(1, 10):
 groups = [
     Group(name='a', label='', layout='max'),
     Group(name='s', label='', layout='columns',
-          spawn=['st -e ranger', 'st -e sudo -i', 'st', 'emacs']),
-    Group(name='d', label='', layout='max'),
-    Group(name='f', label='', layout='max'),
+          spawn=[terminal(execute='ranger'),
+                 terminal(execute='sudo -i'),
+                 terminal()]),
+    Group(name='d', label='', layout='max',
+          spawn=['emacs']),
+    Group(name='f', label='', layout='max',
+          spawn=[terminal(execute='ncmpcpp')]),
     Group(name='u', label='', layout='max'),
     Group(name='i', label='', layout='max'),
     Group(name='o', label='', layout='max'),
@@ -405,11 +422,11 @@ def get_window_size(screen_width):
 @hook.subscribe.client_new
 def floating_windows(window):
     # if window.window.get_wm_class() == ('float-window-wide', 'URxvt'):
-    if window.name in ['ncmpcpp', 'emerge-world']:
+    if window.name in ['ncmpcpp', 'system-update']:
         window.floating = True
         window.width, window.height = get_window_size(screens[0].width)
 
-    if window.name == 'emerge-world':
+    if window.name == 'system-update':
         window.togroup('p')
 
     # if window.name == 'todo.org':
