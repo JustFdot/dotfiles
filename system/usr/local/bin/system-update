@@ -1,0 +1,30 @@
+#!/usr/bin/env bash
+
+source /usr/local/bin/portage-like-output
+
+notify () {
+    DISPLAY=:0 notify-send -i refresh "SYSTEM UPDATE" "$1"
+    info "$1"
+}
+
+header "Updating system"
+
+info "Sync repositories"
+sudo emaint -a sync && notify "Repositories synced"
+
+info "Update packages"
+sudo emerge -uND world && notify "Packages updated"
+
+info "Clean non-need dependencies"
+sudo emerge --depclean && notify "Dependencies cleaned"
+
+info "Update doom emacs"
+doom update && notify "Doom emacs updated"
+
+# TODO: Update soft from git
+# info "Update st terminal"
+# echo cd ~/github/st && git pull && notify "st terminal updated"
+
+
+header "System is up to date now"
+read -rp "Press ${format[green]}[RETURN]${format[reset]} to close the window"

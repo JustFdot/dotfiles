@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+
+xinit_cmd=$(pgrep -a xinit)
+DISPLAY="$(echo "$xinit_cmd" | grep -o ':[0-9]')"
+XUSER="$(echo "$xinit_cmd" | sed -E 's|.*/home/([^/]+)/.*|\1|')"
+XAUTHORITY="/home/$XUSER/.Xauthority"
+export DISPLAY XAUTHORITY XUSER
+
+[[ $(cat /tmp/active-monitor) = 'VGA1' ]] && setfont=(-fn "xft:Hack:pixelsize=20")
+
+urxvtc "${setfont[@]}" -title system-update -e sh -c "/usr/local/bin/system-update"
