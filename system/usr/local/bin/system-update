@@ -3,7 +3,7 @@
 source /usr/local/bin/portage-like-output
 
 notify () {
-    DISPLAY=:0 notify-send -i refresh "SYSTEM UPDATE" "$1"
+    notify-send -i refresh "SYSTEM UPDATE" "$1"
     info "$1"
 }
 
