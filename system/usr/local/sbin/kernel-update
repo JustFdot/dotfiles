@@ -1,26 +1,13 @@
 #!/usr/bin/env bash
 
+source /usr/local/bin/portage-like-output
+
 sources_dir="/usr/src/linux"
 
 kernel_in_use=$(uname -r)
 kernel_to_update=$(readlink "$sources_dir")
 kernel_to_update=${kernel_to_update#linux-}
 
-typeset -A format
-format=(
-    [green]=$(tput setaf 10)
-    [red]=$(tput setaf 9)
-    [bold]=$(tput bold)
-    [reset]=$(tput sgr 0)
-)
-
-header () {
-    echo -e "\n ${format[red]}*${format[reset]} $1\n"
-}
-
-info () {
-    echo -e " ${format[green]}*${format[reset]} $1"
-}
 
 header "Updating kernel from ${format[bold]}$kernel_in_use${format[reset]} to ${format[bold]}$kernel_to_update${format[reset]}"
 
