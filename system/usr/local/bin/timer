@@ -2,7 +2,6 @@
 
 import sys
 import re
-# import os
 import subprocess
 import time
 from termcolor import colored
@@ -57,30 +56,24 @@ class Timer:
             time.sleep(amount['seconds'])
             self.log('Timer has been completed', True)
             subprocess.run([
-                'notify-send', '-i', 'clock',
-                f'TIME REMINDER', f'{message}'])
-            # os.system('notify-send -i clock "IT\'S TIME" "{}"'.format(message))
+                'notify-send', '-i', 'clock', 'TIME REMINDER',
+                f'{message}'])
         except KeyboardInterrupt:
             self.log('Timer has been interupted by user', False)
 
     def make_coffee(self):
         self.log('Let\'s make some coffee')
         try:
-            time.sleep(120)  # Two minutes
+            time.sleep(120)
             self.log('The first step has been passed', True)
             subprocess.run([
                 'notify-send', '-i', 'clock', 'COFFEE REMINDER',
                 'The first step has been passed<br>Go stir it'])
-            # os.system(('notify-send -i clock "COFFEE REMINDER" '
-            #            '"The first step has been passed<br>Go stir it"'))
-            time.sleep(90)  # One and a half minutes
+            time.sleep(120)
             self.log('The second step has been passed', True)
             subprocess.run([
                 'notify-send', '-i', 'clock', 'COFFEE REMINDER',
                 'The second step has been passed<br>Keep an eye on it'])
-            # os.system(('notify-send -i clock "COFFEE REMINDER" '
-            #            '"The second step has been passed<br>'
-            #            'Keep an eye on it"'))
         except KeyboardInterrupt:
             self.log('We are not going to make coffee for some reasons', False)
 
