@@ -2,10 +2,9 @@
 
 import sys
 import re
-from os import system as os_system
-from time import (sleep as time_sleep,
-                  localtime as time_localtime,
-                  strftime as time_strftime)
+# import os
+import subprocess
+import time
 from termcolor import colored
 
 
@@ -52,32 +51,41 @@ class Timer:
         else:
             drop('Couldn\'t parse given argument. It should be \\d+[smh]')
 
-    def set(self, time, message):
-        self.log('Timer has been set for {}'.format(time['formatted']))
+    def set(self, amount, message):
+        self.log('Timer has been set for {}'.format(amount['formatted']))
         try:
-            time_sleep(time['seconds'])
+            time.sleep(amount['seconds'])
             self.log('Timer has been completed', True)
-            os_system('notify-send -i clock "IT\'S TIME" "{}"'.format(message))
+            subprocess.run([
+                'notify-send', '-i', 'clock',
+                f'TIME REMINDER', f'{message}'])
+            # os.system('notify-send -i clock "IT\'S TIME" "{}"'.format(message))
         except KeyboardInterrupt:
             self.log('Timer has been interupted by user', False)
 
     def make_coffee(self):
         self.log('Let\'s make some coffee')
         try:
-            time_sleep(120)  # Two minutes
+            time.sleep(120)  # Two minutes
             self.log('The first step has been passed', True)
-            os_system(('notify-send -i clock "COFFEE REMINDER" '
-                       '"The first step has been passed<br>Go stir it"'))
-            time_sleep(150)  # Two and a half minutes
+            subprocess.run([
+                'notify-send', '-i', 'clock', 'COFFEE REMINDER',
+                'The first step has been passed<br>Go stir it'])
+            # os.system(('notify-send -i clock "COFFEE REMINDER" '
+            #            '"The first step has been passed<br>Go stir it"'))
+            time.sleep(90)  # One and a half minutes
             self.log('The second step has been passed', True)
-            os_system(('notify-send -i clock "COFFEE REMINDER" '
-                       '"The second step has been passed<br>'
-                       'Keep an eye on it"'))
+            subprocess.run([
+                'notify-send', '-i', 'clock', 'COFFEE REMINDER',
+                'The second step has been passed<br>Keep an eye on it'])
+            # os.system(('notify-send -i clock "COFFEE REMINDER" '
+            #            '"The second step has been passed<br>'
+            #            'Keep an eye on it"'))
         except KeyboardInterrupt:
             self.log('We are not going to make coffee for some reasons', False)
 
     def log(self, message, condition=None):
-        now = time_strftime('%H:%M:%S', time_localtime())
+        now = time.strftime('%H:%M:%S', time.localtime())
         if condition is not None:
             now = colored(now, 'green' if condition else 'red')
         print('  {}  {}'.format(now, message))
