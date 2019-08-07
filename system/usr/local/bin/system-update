@@ -5,6 +5,7 @@ source /usr/local/bin/portage-like-output
 notify () {
     notify-send -i refresh "SYSTEM UPDATE" "$1"
     info "$1"
+    echo -e '\a'
 }
 
 header "Updating system"
