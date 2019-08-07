@@ -1,0 +1,64 @@
+#!/usr/bin/env python
+
+'''Split single flac file into per-track files and tag them
+
+Usage:
+  split-flac DIR
+  split-flac (-h | --help)
+  split-flac (-v | --version)
+
+Commands:
+  split-flac DIR   Path to directory with target files
+
+Options:
+  -h, --help       Print this help message
+  -v, --version    Print name and version
+'''
+import subprocess
+from ucli import ucli
+from pathlib import Path
+from docopt import docopt
+
+
+if __name__ == '__main__':
+    args = docopt(__doc__, version='Split Flac 0.1')
+    dir = Path(args['DIR'])
+
+    if not dir.exists() or not dir.is_dir():
+        ucli.drop(f"{args['DIR']} must be an existing directory")
+
+    files = {'.cue': [], '.flac': []}
+
+    for item in dir.iterdir():
+        if not item.is_file():
+            continue
+        for ext in files.keys():
+            if item.name.endswith(ext):
+                files[ext].append(item)
+
+    for ext in files:
+        if len(files[ext]) > 1:
+            ucli.info(f'There are more than one {ext} file')
+            ucli.print_candidates(files[ext], capitalize=False)
+            ucli.print_options("[RETURN] default, [q]uit")
+            files[ext] = ucli.parse_selection(
+                files[ext], message='Pick one to proceed')
+        else:
+            try:
+                files[ext] = files[ext][0]
+            except IndexError:
+                ucli.drop(f'None of {ext} files found')
+
+    ucli.info(f"Splitting file {files['.flac']}")
+    subprocess.run(['shnsplit',
+                    '-f', f"{files['.cue']}",
+                    '-t', '%n - %t',
+                    '-o', 'flac',
+                    '-d', f'{dir}',
+                    f"{files['.flac']}"])
+
+    ucli.info(f"Deleting file {files['.flac']}")
+    files['.flac'].unlink()
+
+    ucli.info('Tagging splitted files')
+    subprocess.run(f"cuetag.sh '{files['.cue']}' {dir}/*.flac", shell=True)
