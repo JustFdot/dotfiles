@@ -168,18 +168,33 @@ class StackItems(CustomWidgetText):
         hook.subscribe.float_change(self.update)
         hook.subscribe.layout_change(self.update)
 
-    def get_clients(self, layout):
-        if layout.name == 'columns':
+    def get_clients(self, layout, window):
+        if layout.name == 'stack':
+            return layout.clients
+        elif layout.name == 'ranger-terminals':
+            if layout._slice.window is window:
+                window.side = True
+            return layout.fallback.clients
+        elif layout.name == 'columns':
             return layout.columns[layout.current].clients
         elif layout.name == 'max':
             return layout.clients.clients
 
     @DEBUG_MODE
     def get_text(self):
-        group = self.qtile.current_screen.group
-        stack = self.get_clients(group.layout)
 
-        if group.current_window is not None and group.current_window.floating:
+        current_window = self.qtile.current_window
+
+        if current_window is None:
+            return ''
+
+        stack = self.get_clients(
+            self.qtile.current_layout, current_window)
+
+        if hasattr(current_window, 'side'):
+            return f'<span {attr_color_normal} {attr_alpha}>SIDE</span>'
+
+        if current_window.floating:
             return f'<span {attr_color_normal} {attr_alpha}>FLOATING</span>'
 
         if not stack or len(stack) < 2:
@@ -187,7 +202,7 @@ class StackItems(CustomWidgetText):
 
         item_icon = []
         for item in stack:
-            if item is group.current_window:
+            if item is current_window:
                 item_icon.append('▣')
             else:
                 item_icon.append(f'<span {attr_alpha}>□</span>')
@@ -242,8 +257,8 @@ class CPU(CustomWidgetPoll):
 
         return (
             f'<span {condition}>'
-            f'<span {attr_icon_font} {attr_alpha} size="10500"></span> '
-            f'{cpu:.0f}%</span>')
+            f'<span {attr_icon_font} {attr_alpha} size="10500"></span> '
+            f'{cpu:.0f}%</span>')  # 
 
 
 class Memory(CustomWidgetPoll):
@@ -256,7 +271,7 @@ class Memory(CustomWidgetPoll):
 
         return (
             f'<span {condition}>'
-            f'<span {attr_alpha} size="10000"></span> '
+            f'<span {attr_icon_font_bold} {attr_alpha} size="10000"></span> '
             f'{humanize_bytes(used)}</span>')
 
 
@@ -337,7 +352,7 @@ class DAC(CustomWidgetPoll):
             if dac == 'closed\n':
                 return (
                     f'<span {attr_color_normal} {attr_alpha}>'
-                    f'<span size="10500"></span> CLOSED</span>')
+                    f'<span size="10500"></span> CLOSED</span>')  # 
             else:
                 bit, rate = self.dac_regex.search(dac).groups()
                 return (f'<span {attr_color_normal}>'
@@ -387,7 +402,7 @@ class Battery(CustomWidgetPoll):
 
         if battery.power_plugged:
             return (f'<span {attr_icon_font_bold} {attr_color_normal}'
-                    f' {attr_alpha} size="11000"></span>')
+                    f' {attr_alpha} size="12300"></span>')  # 
 
         if battery.percent < 20:
             icon = ''

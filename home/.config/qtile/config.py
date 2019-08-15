@@ -27,9 +27,9 @@
 import os
 import subprocess
 from libqtile.config import (
-    Key, Screen, Group, Drag, Click, ScratchPad, DropDown, Match, Rule)
+    Key, Screen, Group, Drag, Click)
 from libqtile.command import lazy
-from libqtile import layout, bar, widget, hook, scratchpad
+from libqtile import layout, bar, widget, hook
 # from plasma import Plasma
 
 import customwidget
@@ -79,37 +79,30 @@ def terminal(qtile=None, execute=None):
     return qtile.cmd_spawn(cmd) if qtile is not None else cmd
 
 
+@DEBUG_MODE
+def custom_focus(qtile, direction):
+    # logger.error(pformat(dir(qtile.current_layout)))
+    if qtile.current_layout.name == 'ranger-terminals':
+        if qtile.current_window.name == 'ranger-window':
+            qtile.current_group.cmd_focus_back()
+        else:
+            qtile.current_group.cmd_focus_by_name('ranger-window')
+    elif qtile.current_layout.name == 'columns':
+        if direction == 'left':
+            qtile.current_layout.cmd_left()
+        elif direction == 'right':
+            qtile.current_layout.cmd_right()
+    else:
+        qtile.current_layout.cmd_next()
+
+
 keys = [
-
-    # Key([mod], 'h', lazy.layout.left()),
-    # Key([mod], 'j', lazy.layout.down()),
-    # Key([mod], 'k', lazy.layout.up()),
-    # Key([mod], 'l', lazy.layout.right()),
-    # Key([mod, 'shift'], 'h', lazy.layout.move_left()),
-    # Key([mod, 'shift'], 'j', lazy.layout.move_down()),
-    # Key([mod, 'shift'], 'k', lazy.layout.move_up()),
-    # Key([mod, 'shift'], 'l', lazy.layout.move_right()),
-    # Key([mod, alt], 'h', lazy.layout.integrate_left()),
-    # Key([mod, alt], 'j', lazy.layout.integrate_down()),
-    # Key([mod, alt], 'k', lazy.layout.integrate_up()),
-    # Key([mod, alt], 'l', lazy.layout.integrate_right()),
-    # Key([mod], 'd', lazy.layout.mode_horizontal()),
-    # Key([mod], 'v', lazy.layout.mode_vertical()),
-    # Key([mod, 'shift'], 'd', lazy.layout.mode_horizontal_split()),
-    # Key([mod, 'shift'], 'v', lazy.layout.mode_vertical_split()),
-    # Key([mod], 'a', lazy.layout.grow_width(30)),
-    # Key([mod], 'x', lazy.layout.grow_width(-30)),
-    # Key([mod, 'shift'], 'a', lazy.layout.grow_height(30)),
-    # Key([mod, 'shift'], 'x', lazy.layout.grow_height(-30)),
-    # # Key([mod], 'C-5', lazy.layout.size(500)),
-    # # Key([mod], 'C-8', lazy.layout.size(800)),
-    # Key([mod], 'n', lazy.layout.reset_size()),
-
 
     Key([mod], "j", lazy.layout.down()),
     Key([mod], "k", lazy.layout.up()),
-    Key([mod], "h", lazy.layout.left()),
-    Key([mod], "l", lazy.layout.right()),
+    Key([mod], "h", lazy.function(custom_focus, 'left')),
+    Key([mod], "l", lazy.function(custom_focus, 'right')),
+    # Key([mod], "l", lazy.layout.right()),
     Key([mod, "control"], "j", lazy.layout.grow_down()),
     Key([mod, "control"], "k", lazy.layout.grow_up()),
     Key([mod, "control"], "h", lazy.layout.grow_left()),
@@ -130,7 +123,7 @@ keys = [
         lazy.function(update_widget, 'stackitems')),
 
 
-    Key([mod, 'control'], 'f', lazy.window.toggle_fullscreen()),
+    Key([mod, 'control'], 'f', lazy.window.toggle_maximize()),
     Key([alt], 'space', lazy.window.toggle_floating()),
 
 
@@ -142,35 +135,24 @@ keys = [
         lazy.function(update_widget, 'volume')),
 
 
-    # Switch window focus to other pane(s) of stack
-    Key([mod], 'space', lazy.layout.next()),
-
-    # Swap panes of split stack
-    Key([mod, 'shift'], 'space', lazy.layout.rotate()),
-
     # Toggle between split and unsplit sides of stack.
     # Split = all windows displayed
     # Unsplit = 1 window displayed, like Max layout, but still with
     # multiple stack panes
     Key([mod, 'shift'], 'Return', lazy.layout.toggle_split()),
 
-
     # Toggle between different layouts as defined below
     Key([mod, 'shift'], 'Tab', lazy.next_layout()),
+
     Key([mod], 'Tab', lazy.screen.toggle_group()),
     Key([mod, 'shift'], 'w', lazy.window.kill()),
 
     Key([mod, 'control'], 'r', lazy.restart()),
     Key([mod, 'control'], 'q', lazy.shutdown()),
-    # Key([mod], 'r', lazy.spawncmd()),
 
     # Run programs
     Key([mod], 'Return', lazy.function(terminal)),
     Key([mod], 'r', lazy.spawn('zsh -c "rofi -show run"')),
-    # Need to get new time each execute
-    # Key([mod], 't', lazy.spawn(
-    #     f"notify-send -i clock -t 700 \"<span
-    #     size='30000'>{datetime.now().strftime('%R')}</span>\"")),
 
     Key([mod], 'Print', lazy.spawn(
         f'scrot "qtile.png" -e "mv $f {home}/img/shots/"')),
@@ -190,19 +172,19 @@ for num in range(1, 10):
 
 
 groups = [
-    Group(name='a', label='', layout='max'),
-    Group(name='s', label='', layout='columns',
-          spawn=[terminal(execute='ranger'),
-                 terminal(execute='sudo -i'),
-                 terminal()]),
-    Group(name='d', label='', layout='max',
+    Group(name='a', label='', layout='stack'),
+    Group(name='s', label='', layout='ranger-terminals',
+          spawn=['st -t ranger-window -e ranger',
+                 'st -e sudo -i',
+                 'st']),
+    Group(name='d', label='', layout='stack',
           spawn=['emacs']),
-    Group(name='f', label='', layout='max',
-          spawn=[terminal(execute='ncmpcpp')]),
-    Group(name='u', label='', layout='max'),
-    Group(name='i', label='', layout='max'),
-    Group(name='o', label='', layout='max'),
-    Group(name='p', label='', layout='max')
+    Group(name='f', label='', layout='stack',
+          spawn=['st -e ncmpcpp']),
+    Group(name='u', label='', layout='stack'),
+    Group(name='i', label='', layout='stack'),
+    Group(name='o', label='', layout='stack'),
+    Group(name='p', label='', layout='stack')
 ]
 
 for i in groups:
@@ -210,31 +192,6 @@ for i in groups:
         Key([mod], i.name, lazy.screen.toggle_group(i.name)),
         Key([mod, 'shift'], i.name, lazy.window.togroup(i.name)),
     ])
-
-
-# groups.append(
-#     ScratchPad('scratchpad', [
-#         # define a drop down terminal.
-#         # it is placed in the upper third of screen by default.
-#         # DropDown('todo', f'emacs {home}/.emacs.d/todo.org',
-#         #          x=0.25, y=0.1, width=0.5, height=0.8, opacity=0.95),
-
-#         # DropDown('translate',
-#         #          ('google-chrome-stable '
-#         #           f'--user-data-dir={home}/.config/chrome-empty-profile '
-#         #           '--app="https://translate.google.as/?sl=en&tl=ru"'),
-#         #          x=0.1, y=0.1, width=0.8, height=0.8, opacity=0.95),
-
-#         # define another terminal exclusively for qshell at different position
-#         # DropDown('qshell', 'urxvt -hold -e qshell',
-#         #         x=0.05, y=0.4, width=0.9, height=0.6, opacity=0.9,
-#         #         on_focus_lost_hide=True) ]),
-#     ]))
-
-# keys.extend([
-#     Key([alt], 'Escape', lazy.group['scratchpad'].dropdown_toggle('todo')),
-#     Key([mod], 't', lazy.group['scratchpad'].dropdown_toggle('translate'))
-# ])
 
 
 layout_theme = {
@@ -248,12 +205,11 @@ layout_theme = {
 
 
 layouts = [
-    layout.Max(**layout_theme),
-    layout.Columns(**layout_theme, split=False),
-    # Plasma(**layout_theme),
-    # layout.Bsp(**layout_theme),
-    # layout.MonadTall(**layout_theme),
-    # layout.Stack(num_stacks=2, **layout_theme)
+    layout.Stack(num_stacks=1, border_width=0),
+    layout.Columns(split=False, **layout_theme),
+    layout.Slice(
+        fallback=layout.Stack(num_stacks=1, name='term-stack', **layout_theme),
+        name='ranger-terminals', width=600, wname='ranger-window')
 ]
 
 
@@ -278,7 +234,8 @@ gray = '4a4f4f'
 
 group_box_properties = {
     'active': '797b7a',
-    'borderwidth': 2,
+    'rounded': False,
+    'borderwidth': 0,
     'disable_drag': True,
     'font': 'Font Awesome 5 Free Solid',
     'fontsize': 16,
@@ -288,53 +245,21 @@ group_box_properties = {
     'margin': 1,
     'margin_x': 0,
     'padding': 7,
-    'padding_x': 10,
-    # 'this_current_screen_border': '#444545',
-    # 'this_current_screen_border': '#34353c',
-    # 'this_current_screen_border': '#1f2020',
-    'this_current_screen_border': '#232628',
-    'this_screen_border': white,
-    'urgent_alert_method': 'line',
-    'urgent_border': yellow,
-    'urgent_text': yellow,
+    'padding_x': 14,
+    'this_current_screen_border': '2d2e2e',
+    'urgent_alert_method': 'block',
+    'urgent_border': '3d321e',
     'use_mouse_wheel': False,
 }
-
-# group_box_properties = {
-#     'active': '686a69',
-#     'borderwidth': 2,
-#     'disable_drag': True,
-#     'font': 'Font Awesome 5 Free Solid',
-#     'fontsize': 16,
-#     'hide_unused': True,
-#     'highlight_color': background,
-#     'highlight_method': 'line',
-#     'margin': 0,
-#     'padding': 7,
-#     'padding_x': 12,
-#     'rounded': False,
-#     'this_current_screen_border': white,
-#     'this_screen_border': white,
-#     'urgent_alert_methon': 'block',
-#     'urgent_border': yellow,
-#     'urgent_text': black,
-#     'use_mouse_wheel': False,
-# }
 
 screens = [
     Screen(
         bottom=bar.Bar([
-            # widget.GroupBox(**group_box_properties),
             customwidget.Groups(**group_box_properties),
             widget.sep.Sep(foreground='#444545'),
-            # widget.CurrentLayoutIcon(
-            #     scale=.5,
-            #     custom_icon_paths=[f'{home}/.config/qtile/layout-icons']),
             customwidget._spacer(length=10),
             customwidget.StackItems(),
-            # customwidget.Test(),
             customwidget._spacer(length=bar.STRETCH),
-
 
             widget.Systray(),
 
@@ -370,6 +295,22 @@ mouse = [
 ]
 
 
+def get_window_size(screen_width):
+    return (1496, 875) if screen_width == 1920 else (1096, 604)
+
+
+@DEBUG_MODE
+@hook.subscribe.client_new
+def floating_windows(window):
+    # if window.window.get_wm_class() == ('float-window-wide', 'URxvt'):
+    if window.name in ['ncmpcpp', 'tag-update']:
+        window.floating = True
+        window.width, window.height = get_window_size(screens[0].width)
+
+    if window.name == 'tag-update':
+        window.togroup('p')
+
+
 @hook.subscribe.startup_once
 def autostart():
     subprocess.call(['/usr/local/bin/pick-peripheral'])
@@ -387,6 +328,9 @@ main = None
 follow_mouse_focus = False
 bring_front_click = False
 cursor_warp = False
+auto_fullscreen = True
+focus_on_window_activation = 'smart'
+
 floating_layout = layout.Floating(
     border_focus=black,
     border_width=4,
@@ -408,54 +352,6 @@ floating_layout = layout.Floating(
         {'wmclass': 'float-window'},
     ])
 
-
-def get_window_size(screen_width):
-    return (1496, 875) if screen_width == 1920 else (1096, 604)
-
-
-# SP = ScratchPad('scratchpad', [])
-# groups.append(SP)
-# logger.error(pformat(SP.dropdowns))
-
-
-@DEBUG_MODE
-@hook.subscribe.client_new
-def floating_windows(window):
-    # if window.window.get_wm_class() == ('float-window-wide', 'URxvt'):
-    if window.name in ['ncmpcpp', 'system-update']:
-        window.floating = True
-        window.width, window.height = get_window_size(screens[0].width)
-
-    if window.name == 'system-update':
-        window.togroup('p')
-
-    # if window.name == 'todo.org':
-    #     SP.dropdowns['todo'] = scratchpad.WindowVisibilityToggler(
-    #         'todo', window, on_focus_lost_hide=False, warp_pointer=False)
-    #     window.togroup('scratchpad')
-
-        # scratchpad.DropDownToggler(window, 'todo', {
-        #     'name': 'todo',
-        #     'x': 0,
-        #     'y': 0,
-        #     'width': 1000,
-        #     'height': 500,
-        #     'opacity': 1,
-        #     'on_focus_lost_hide': False,
-        #     'warp_pointer': False,
-        # })
-        # window.togroup('p')
-
-
-# todo = Rule(Match(title='todo.org'), float=True)
-# keys.extend([
-#     Key([alt], 'Escape', lazy.function(logger.error, todo)),
-#     # Key([alt], 'Escape', lazy.group['scratchpad'].dropdown_toggle('todo')),
-# ])
-
-
-auto_fullscreen = True
-focus_on_window_activation = 'smart'
 
 # XXX: Gasp! We're lying here. In fact, nobody really uses or cares about this
 # string besides java UI toolkits; you can see several discussions on the
