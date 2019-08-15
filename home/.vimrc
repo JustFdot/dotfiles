@@ -1,11 +1,10 @@
 syntax on
 set number
-set relativenumber
 set cursorline
 set showcmd
 set noshowmode
 set mouse=a
-set clipboard+=unnamedplus
+" set clipboard+=unnamedplus
 
 set nocompatible
 filetype off
