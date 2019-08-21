@@ -14,11 +14,13 @@ get_display () {
     export DISPLAY XAUTHORITY
 }
 
-spawn_urxvt () {
-    urxvtc \
-        -name float-window \
-        -e zsh -c "$*"
+spawn_terminal () {
+    kitty -1 --name update-window "$@"
+    # urxvtc \
+    #     -title tag-update \
+    #     -e zsh -c "$*"
 }
+
 
 # debug_log "Id: $id"
 # debug_log "Title: $title"
