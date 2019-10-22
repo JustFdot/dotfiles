@@ -45,8 +45,8 @@ nmap <CR> o<Esc>
 " highlight last inserted text
 nnoremap gV `[v`]
 " swap colon and semicolon
-nnoremap ; :
-nnoremap : ;
+" nnoremap ; :
+" nnoremap : ;
 
 
 set rtp+=~/.vim/bundle/Vundle.vim
@@ -80,12 +80,15 @@ call vundle#end()            " required
 
 let mapleader=','
 
-set termguicolors
-let g:gruvbox_italic=1
-" colorscheme gruvbox
-colorscheme base16-tomorrow-night
-set background=dark    " Setting dark mode
+" Add this to your vimrc to resolve the issue
+" Found at https://github.com/vim/vim/issues/993#issuecomment-255651605
+" set Vim-specific sequences for RGB colors
+let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
+let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
 
+set termguicolors
+colorscheme base16-tomorrow-night
+set background=dark
 if filereadable(expand("~/.vimrc_background"))
   let base16colorspace=256
   source ~/.vimrc_background
