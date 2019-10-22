@@ -74,7 +74,7 @@ prompt_justf_setup() {
   zstyle ':zim:git-info:keys' format \
     'prompt' '%C%Dgit:%f%b%c'
 
-  PROMPT="\$(prompt_justf_host) $(prompt_justf_path)$(prompt_justf_status)$(prompt_justf_user)"
+  PROMPT="$(prompt_justf_host) \$(prompt_justf_path)$(prompt_justf_status)$(prompt_justf_user)"
   RPROMPT='$(prompt_justf_jobs)$(prompt_justf_git)'
 }
 
