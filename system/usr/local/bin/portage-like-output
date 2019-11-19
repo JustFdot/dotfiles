@@ -15,3 +15,7 @@ header () {
 info () {
     echo -e " ${format[green]}*${format[reset]} $1"
 }
+
+drop () {
+    echo "$1" && exit 1
+}
