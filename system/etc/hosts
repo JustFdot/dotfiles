@@ -19,6 +19,8 @@
 
 127.0.0.1       localhost tvshows.local
 127.0.0.1       localhost vue.local
+127.0.0.1       localhost kompas.local
+127.0.0.1       localhost test.local
 
 # Imaginary network.
 #10.0.0.2               myname
