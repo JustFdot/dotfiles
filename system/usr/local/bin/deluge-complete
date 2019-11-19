@@ -16,9 +16,6 @@ get_display () {
 
 spawn_terminal () {
     kitty -1 --name update-window "$@"
-    # urxvtc \
-    #     -title tag-update \
-    #     -e zsh -c "$*"
 }
 
 
@@ -29,12 +26,15 @@ spawn_terminal () {
 [[ -z "$DISPLAY" ]] && get_display
 
 if [[ "$path" == *"/sound" ]] ; then
-    spawn_urxvt "/usr/bin/beet import \"$path/$title\" ; echo 'Press any key to exit' ; read -k1"
+    spawn_terminal --hold /usr/bin/beet import "$path/$title"
     notify-send -i music "MUSIC DOWNLOADED" "$title"
 elif [[ "$path" == *"/video" ]] ; then
     info_file="$HOME/.torrents-info"
-    grep -qF "$title" "$info_file" || spawn_urxvt "/usr/local/bin/videonamer \"$path/$title\""
-    echo "$title:$id" >> "$info_file"
+    existing=$(grep -F "$title" "$info_file")
+
+    [[ -z "$existing" ]] && spawn_terminal /usr/local/bin/videonamer "$path/$title"
+    echo "$existing" | grep -q -m 1 "$id" || echo "$title:$id" >> "$info_file"
+
     notify-send -i video "VIDEO DOWNLOADED" "$title"
 else
     notify-send -i bell "DOWNLOADING IS COMPLETE" "$title"
