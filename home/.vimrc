@@ -1,5 +1,5 @@
 syntax on
-set number
+" set number
 set cursorline
 set showcmd
 set noshowmode
@@ -7,7 +7,7 @@ set mouse=a
 " set clipboard+=unnamedplus
 
 set nocompatible
-filetype off
+" filetype off
 set hlsearch
 " set splitbelow
 set splitright
@@ -69,13 +69,14 @@ call vundle#begin()
   Plugin 'junegunn/vim-oblique'
 
   Plugin 'scrooloose/syntastic'
-  " Plugin 'Valloric/YouCompleteMe'
-  Plugin 'fboender/bexec'
+  Plugin 'Valloric/YouCompleteMe'
+  " Plugin 'fboender/bexec'
+  Plugin 'posva/vim-vue'
 
   " Plugin 'vim-ruby/vim-ruby'
   " Plugin 'tpope/vim-rails'
   " Plugin 'tpope/vim-bundler'
-  Plugin 'kchmck/vim-coffee-script'
+  " Plugin 'kchmck/vim-coffee-script'
 call vundle#end()            " required
 
 let mapleader=','
@@ -170,3 +171,10 @@ if has('persistent_undo')
   set undodir=~/.vim/backups
   set undofile
 endif
+
+" Apply macro in visual mode
+xnoremap @ :<C-u>call ExecuteMacroOverVisualRange()<CR>
+function! ExecuteMacroOverVisualRange()
+  echo "@".getcmdline()
+  execute ":'<,'>normal @".nr2char(getchar())
+endfunction
