@@ -182,12 +182,12 @@
        ;; config. Use it as a reference for your own modules.
        (default +bindings +smartparens))
 
-(def-package-hook! doom-themes
+(use-package-hook! doom-themes
   :pre-init
   (setq doom-theme 'justf-tomorrow-night)
   nil)
 (after! doom-themes
-  (setq doom-font (font-spec :family "Hack" :size 14)
+  (setq doom-font (font-spec :family "Hack" :size 16)
         doom-big-font (font-spec :family "Hack" :size 20)
         display-line-numbers-type nil
         global-visual-line-mode t
@@ -197,15 +197,16 @@
   (fringe-mode 14)
   (global-visual-line-mode +1)
 
+  ;; FIXME: It doesn't work
   ;; Increase font when VGA monitor connected
-  ;;     (doom-big-font-mode +1)))
   (if (mapc (lambda (monitor)
             (when (string-equal "VGA1" (cdr (assq 'name monitor))) t))
               (display-monitor-attributes-list))
-      (doom-big-font-mode +1)))
+      (doom-big-font-mode +1))
+  )
 
 
-(def-package-hook! evil-escape
+(use-package-hook! evil-escape
   :pre-init
   (setq evil-escape-excluded-states '(normal)
         evil-escape-excluded-major-modes '(neotree-mode treemacs-mode term-mode vterm-mode)
@@ -213,11 +214,20 @@
         evil-escape-delay 0.25)
   (evil-define-key* '(operator insert replace visual) 'global "\C-g" #'evil-escape)
   nil)
-(def-package-hook! evil-escape
+(use-package-hook! evil-escape
   :pre-config
   (evil-escape-mode +1)
   nil)
 
+(use-package! expand-region
+  :commands (er/contract-region er/mark-symbol er/mark-word)
+  :config
+  (defun doom*quit-expand-region ()
+    "Properly abort an expand-region region."
+    (when (memq last-command '(er/expand-region er/contract-region))
+      (er/contract-region 0)))
+  (advice-add #'evil-escape :before #'doom*quit-expand-region)
+  (advice-add #'doom/escape :before #'doom*quit-expand-region))
 
 (after! evil
   (setq evil-move-cursor-back nil))
@@ -234,7 +244,27 @@
 (after! ranger
   (setq ranger-show-hidden t))
 
-(def-package-hook! mu4e
+(use-package-hook! web-mode
+  :post-config
+    (setq-default web-mode-comment-formats
+                '(("java"       . "/*")
+                  ("javascript" . "//")
+                  ("php"        . "//")))
+
+    (setq web-mode-markup-indent-offset 2
+          web-mode-css-indent-offset 2
+          web-mode-code-indent-offset 2
+          web-mode-part-padding nil
+          web-mode-script-padding nil
+          web-mode-style-padding nil))
+
+(use-package-hook! php-mode
+  :post-config (setq c-basic-offset 4))
+;; (after! sh-script
+;;   (set-company-backend! 'sh-mode
+;;     '(company-shell :with company-yasnippet)))
+
+(use-package-hook! mu4e
   :post-config
     (setq mu4e-headers-fields '((:human-date . 12)
                                 (:flags . 4)
@@ -250,7 +280,7 @@
       (mu4e-compose-signature . "---\nIvan Filatov"))
     t))
 
-(def-package-hook! doom-modeline
+(use-package-hook! doom-modeline
   :post-config
   (doom-modeline-def-modeline 'main
     '(bar matches buffer-info remote-host buffer-position selection-info)

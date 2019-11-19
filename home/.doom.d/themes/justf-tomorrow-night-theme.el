@@ -15,8 +15,8 @@ determine the exact padding."
   "A theme based off of Chris Kempson's Tomorrow Dark."
 
   ;; name        gui       256       16
-  ((bg             '("#1d1f21" nil       nil          ))
-   (bg-alt         '("#161719" nil       nil          ))
+  ((bg             '("#161719" nil       nil          ))
+   (bg-alt         '("#1d1f21" nil       nil          ))
    (base0          '("#0d0d0d" "black"   "black"      ))
    (base1          '("#1b1b1b" "#1b1b1b"              ))
    (base2          '("#212122" "#1e1e1e"              ))
@@ -72,7 +72,8 @@ determine the exact padding."
    (vc-deleted     red)
 
    ;; custom categories
-   (modeline-bg     `(,(doom-darken (car bg-alt) 0.3) ,@(cdr base3)))
+   ;; (modeline-bg     `(,(doom-darken (car bg-alt) 0.3) ,@(cdr base3)))
+   (modeline-bg     `(,(car bg) ,@(cdr base3)))
    (modeline-bg-alt `(,(car bg) ,@(cdr base1)))
    (modeline-fg     fg)
    (modeline-fg-alt comments)
@@ -98,7 +99,7 @@ determine the exact padding."
    ;; (doom-modeline-warning)
    ;; (doom-modeline-urgent)
    ;; (doom-modeline-unread-number)
-   ;; (doom-modeline-bar)
+   (doom-modeline-bar                       :foreground bg)
    ;; (doom-modeline-inactive-bar)
    ;; (doom-modeline-evil-emacs-state)
    ;; (doom-modeline-evil-insert-state)
@@ -135,7 +136,8 @@ determine the exact padding."
    (avy-lead-face-1 :inherit 'avy-lead-face :weight 'normal :foreground (doom-darken yellow 0.3))
    (avy-lead-face-2 :inherit 'avy-lead-face :weight 'normal :foreground (doom-darken yellow 0.4))
    (cursor :background fg)
-   (fringe :foreground base4 :inherit 'hl-line)
+   ;; (fringe :foreground base4 :inherit 'hl-line)
+   (fringe :foreground base4 :background bg)
    (lsp-face-highlight-read :background dark-blue)
    (lsp-face-highlight-textual :background dark-green)
    (lsp-face-highlight-write :background dark-yellow)
@@ -148,7 +150,7 @@ determine the exact padding."
    (org-quote :foreground grey :background modeline-bg :italic italic)
    (outline-1 :foreground blue :background nil :bold bold)
    (outline-2 :foreground fg :background nil :bold bold)
-   (show-paren-match :foreground pink :background (doom-darken pink 0.90))
+   (show-paren-match :foreground pink)
   )
 
   ;; --- variables --------------------------
