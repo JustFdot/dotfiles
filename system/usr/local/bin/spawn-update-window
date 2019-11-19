@@ -6,6 +6,7 @@ XUSER="$(echo "$xinit_cmd" | sed -E 's|.*/home/([^/]+)/.*|\1|')"
 XAUTHORITY="/home/$XUSER/.Xauthority"
 export DISPLAY XAUTHORITY XUSER
 
-[[ $(cat /tmp/active-monitor) = 'VGA1' ]] && setfont=(-fn "xft:Hack:pixelsize=20")
+# [[ $(cat /tmp/active-monitor) = 'VGA1' ]] && setfont=(-fn "xft:Hack:pixelsize=20")
 
-urxvtc "${setfont[@]}" -title system-update -e sh -c "/usr/local/bin/system-update"
+# urxvtc "${setfont[@]}" -title tag-update -e sh -c "/usr/local/bin/system-update"
+kitty -1 --name update-window /usr/local/bin/system-update
