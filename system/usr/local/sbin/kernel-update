@@ -2,14 +2,29 @@
 
 source /usr/local/bin/portage-like-output
 
+# TODO: Script and options description
+usage () {
+  drop "  $(basename "$0"): [--reconfig] [-h|--help]"
+}
+
 sources_dir="/usr/src/linux"
 
 kernel_in_use=$(uname -r)
 kernel_to_update=$(readlink "$sources_dir")
 kernel_to_update=${kernel_to_update#linux-}
 
+if [[ -n "$1" ]] ; then
+  case "$1" in
+    --reconfig) menuconfig=menuconfig ;;
+    --help | -h) usage ;;
+    *) usage ;;
+  esac
+fi
 
-header "Updating kernel from ${format[bold]}$kernel_in_use${format[reset]} to ${format[bold]}$kernel_to_update${format[reset]}"
+
+header "Updating kernel \
+from ${format[bold]}$kernel_in_use${format[reset]} \
+to ${format[bold]}$kernel_to_update${format[reset]}"
 
 info "Mount /boot"
 mount /dev/sda2 /boot
@@ -18,29 +33,54 @@ info "Copy current kernel config"
 cp /boot/config-"$kernel_in_use" /usr/src/linux/.config
 cp /boot/config-"$kernel_in_use" ~/kernel-config-"$kernel_in_use"
 
-info "Compile kernel:"
-cd "$sources_dir" || { echo "Couldn't get directory $sources_dir"; exit 1; }
-info "[1/5] make olddefconfig"
-make -j9 olddefconfig > /dev/null
-info "[2/5] make modules_prepare"
-make -j9 modules_prepare > /dev/null
-info "[3/5] make"
-make -j9 > /dev/null
-info "[4/5] make modules_install"
-make -j9 modules_install > /dev/null
-info "[5/5] make install"
-make install > /dev/null
+# TODO: Maybe should keep all the kernel files
+# sources_dir="/usr/src/linux"
+# current=$(uname -r)
+# next=$(readlink "$sources_dir")
+# next=${next#linux-}
+
+# current=4.19.44-gentoo
+# next=4.24.66-gentoo-r1
+
+# current_version=${current%.*}
+# next_version=${next%.*}
+# backup_tar="/tmp/test/$current_version.tar"
+
+# echo "kernel in use: $current"
+# echo "kernel to update: $next"
+
+
+# [[ -e "$backup_tar" ]] && tar_action=append || tar_action=create
+# echo tar --file "$backup_tar" --directory /boot --$tar_action "config-$current"
+
+# if [[ ! "$current_version" = "$next_version" ]] ; then
+#     echo "compress $backup_tar"
+# fi
+
+
+info "Build kernel:"
+cd "$sources_dir" || drop "Couldn't get directory $sources_dir"
+typeset -t make_targets
+# shellcheck disable=SC2206
+make_targets=(olddefconfig $menuconfig modules_prepare all modules_install install)
+steps=${#make_targets[@]}
+for i in "${!make_targets[@]}" ; do
+    step=$((i+1))
+    target="${make_targets[$i]}"
+
+    info "[$step/$steps] make $target"
+    make -j9 --quiet -- "$target" || drop "Something went wrong. Abort!"
+done
 
 info "Update grub config"
 grub-mkconfig -o /boot/grub/grub.cfg
 
 info "Remove source files of ${format[bold]}$kernel_in_use${format[reset]} kernel"
-emerge -P gentoo-sources
 rm -rf /usr/src/linux-"$kernel_in_use"
 
 info "Cleanup old files"
 for FILE in $(find /lib/modules -maxdepth 1 -mindepth 1 -type d -printf '%f\n' | sort -V | head -n -3); do
-  rm -rf "/boot/{vmlinuz,System.map,config}${FILE:?}"
+  rm -rf "/boot/{vmlinuz,System.map,config}-${FILE:?}"
   rm -rf "/lib/modules/${FILE:?}"
 done
 
