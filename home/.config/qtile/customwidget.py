@@ -5,17 +5,17 @@ import subprocess
 import psutil
 import socket
 from datetime import datetime
-from libqtile.widget import base
 from libqtile import bar, widget, hook
 
 from libqtile.log_utils import logger
-from pprint import pprint, pformat
+from pprint import pformat
 import time
 
 
 attr_icon_font = 'font="Font Awesome 5 Free"'
 attr_icon_font_bold = 'font="Font Awesome 5 Free Solid"'
 attr_alpha = 'alpha="45%"'
+attr_more_alpha = 'alpha="35%"'
 attr_color_normal = 'color="#969896"'
 attr_color_green = 'color="#b5bd68"'
 attr_color_yellow = 'color="#f0c674"'
@@ -100,16 +100,17 @@ def humanize_bytes(value):
 #     print(humanize_bytes(num))
 
 
-class CustomWidgetText(base._TextBox):
+class CustomWidgetText(widget.base._TextBox):
 
     def __init__(self, width=bar.CALCULATED, **config):
         self.markup = True
-        # base._TextBox.__init__(self, text=text, width=width, **config)
-        base._TextBox.__init__(self, width=width, **config)
+        # widget.base._TextBox.__init__(self, text=text, width=width, **config)
+        widget.base._TextBox.__init__(self, width=width, **config)
         self.text = self.get_text()
 
-    def update(self, *args):
-        text = self.get_text()
+    def update(self, *args, text=None):
+        if text is None:
+            text = self.get_text()
         if len(text) == len(self.text):
             self.text = text
             self.draw()
@@ -126,11 +127,11 @@ class CustomWidgetText(base._TextBox):
         self.update()
 
 
-class CustomWidgetPoll(base.InLoopPollText):
+class CustomWidgetPoll(widget.base.InLoopPollText):
 
     def __init__(self, **config):
         self.markup = True
-        base.InLoopPollText.__init__(self, **config)
+        widget.base.InLoopPollText.__init__(self, **config)
         self.update_interval = 5
 
     def button_press(self, x, y, button):
@@ -160,10 +161,10 @@ class StackItems(CustomWidgetText):
 
     def __init__(self, width=bar.CALCULATED, **config):
         self.markup = True
-        base._TextBox.__init__(self, width=width, **config)
+        widget.base._TextBox.__init__(self, width=width, **config)
 
     def _configure(self, qtile, bar):
-        base._TextBox._configure(self, qtile, bar)
+        widget.base._TextBox._configure(self, qtile, bar)
         hook.subscribe.focus_change(self.update)
         hook.subscribe.float_change(self.update)
         hook.subscribe.layout_change(self.update)
@@ -257,8 +258,8 @@ class CPU(CustomWidgetPoll):
 
         return (
             f'<span {condition}>'
-            f'<span {attr_icon_font} {attr_alpha} size="10500"></span> '
-            f'{cpu:.0f}%</span>')  # 
+            f'<span {attr_icon_font} {attr_more_alpha} size="10500"></span> '
+            f'{cpu:.0f}%</span>')
 
 
 class Memory(CustomWidgetPoll):
@@ -271,7 +272,8 @@ class Memory(CustomWidgetPoll):
 
         return (
             f'<span {condition}>'
-            f'<span {attr_icon_font_bold} {attr_alpha} size="10000"></span> '
+            f'<span {attr_icon_font_bold} '
+            f'{attr_more_alpha} size="10000"></span> '
             f'{humanize_bytes(used)}</span>')
 
 
