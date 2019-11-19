@@ -33,6 +33,7 @@ x11-terms/st savedconfig
 # #### ########
 
 app-editors/vim perl python gpm vim-pager
+app-editors/gvim perl python session
 # required by app-editors/neovim
 dev-lua/mpack luajit
 dev-lua/lpeg luajit
@@ -188,3 +189,17 @@ dev-python/cairocffi PYTHON_TARGETS: -python2_7
 # # required by gui-wm/sway-1.0::gentoo
 # # required by sway (argument)
 # x11-base/xorg-server wayland
+
+x11-libs/libva utils
+sys-apps/smartmontools -daemon
+
+dev-lang/ghc binary
+
+# required by dev-lang/php-7.3.9::gentoo
+# required by @selected
+# required by @world (argument)
+>=app-eselect/eselect-php-0.9.4-r5 fpm apache2
+dev-lang/php apache2 cgi curl exif fpm gd intl mysql mysqli pdo xmlreader xmlwriter zip
+
+net-misc/remmina rdp
+dev-python/requests socks5

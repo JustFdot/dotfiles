@@ -1,4 +1,4 @@
 # -*- mode: conf -*-
-app-editors/visual-studio-code::jorgicio
+app-editors/vscodium-bin::jorgicio
 x11-themes/materia-theme::jorgicio
 x11-themes/flat-remix-icon-theme::jorgicio
