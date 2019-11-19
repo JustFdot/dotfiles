@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+
+# Wait for rofi window hides
+sleep .25
+# Move mouse cursor a bit to fool xbanish
+xdotool mousemove_relative 1 0 \
+&& pkill -SIGSTOP xbanish \
+&& import png:- | xclip -selection clipboard -t image/png \
+&& pkill -SIGCONT xbanish
