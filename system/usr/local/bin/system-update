@@ -20,12 +20,7 @@ info "Clean non-need dependencies"
 sudo emerge --depclean && notify "Dependencies cleaned"
 
 info "Update doom emacs"
-"$HOME/.emacs.d/bin/doom" update && notify "Doom emacs updated"
+"$HOME/.emacs.d/bin/doom" upgrade && notify "Doom emacs updated"
 
-# TODO: Update soft from git
-# info "Update st terminal"
-# echo cd ~/github/st && git pull && notify "st terminal updated"
-
-
-header "System is up to date now"
+header "System is up-to-date now"
 read -rp "Press ${format[green]}[RETURN]${format[reset]} to close the window"
