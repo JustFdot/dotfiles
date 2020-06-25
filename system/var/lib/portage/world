@@ -68,6 +68,7 @@ dev-python/bpython
 dev-python/cairocffi
 dev-python/dbus-python
 dev-python/falcon
+dev-python/feedparser
 dev-python/flake8
 dev-python/fonttools
 dev-python/gst-python
@@ -77,6 +78,7 @@ dev-python/netifaces
 dev-python/pip
 dev-python/pipenv
 dev-python/ptpython
+dev-python/pytz
 dev-python/requests
 dev-python/setuptools
 dev-python/ujson
@@ -145,6 +147,7 @@ net-vpn/openvpn
 net-vpn/tor
 net-wireless/iw
 net-wireless/wpa_supplicant
+sys-apps/dmidecode
 sys-apps/fd
 sys-apps/hdparm
 sys-apps/hwinfo
