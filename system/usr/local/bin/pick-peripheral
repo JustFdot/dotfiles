@@ -19,8 +19,9 @@ MOUSE="Logitech USB Optical Mouse"
 INTERNAL_KEYBOARD="AT Translated Set 2 keyboard"
 EXTERNAL_KEYBOARD="HID Keyboard HID Keyboard"
 
-internal_monitor=(LVDS1 --mode 1366x768 --pos 0x0 --rotate normal)
-external_monitor=(VGA1 --mode 1920x1080 --pos 0x0 --rotate normal)
+internal_monitor=(LVDS1 --mode 1366x768 --rotate normal)
+# external_monitor=(VGA1 --mode 1920x1080 --pos 0x0 --rotate normal)
+external_monitor=(VGA1 --mode 1280x1024 --rotate normal --rate 75 --primary)
 
 get_display () {
     DISPLAY="$(pgrep -a xinit | grep -o ':[0-9]')"
@@ -37,10 +38,11 @@ setup_monitor () {
 
     if xrandr --query | grep -q "${external_monitor[0]} connected" ; then
         active_monitor="${external_monitor[0]}"
-        internal_monitor=("${internal_monitor[0]}" --off)
+        internal_monitor=("${internal_monitor[0]}" --left-of VGA1)
         # gaps=25
     else
         active_monitor="${internal_monitor[0]}"
+        internal_monitor=("${internal_monitor[0]}" --primary)
         external_monitor=("${external_monitor[0]}" --off)
         # gaps=20
     fi
