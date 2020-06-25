@@ -114,6 +114,8 @@ keys = [
     Key([mod], 'k', lazy.layout.up()),
     Key([mod], 'h', lazy.function(custom_focus, 'left')),
     Key([mod], 'l', lazy.function(custom_focus, 'right')),
+    Key([mod], 'w', lazy.to_screen(1)),
+    Key([mod], 'e', lazy.to_screen(0)),
     Key([mod, 'control'], 'j', lazy.layout.grow_down()),
     Key([mod, 'control'], 'k', lazy.layout.grow_up()),
     Key([mod, 'control'], 'h', lazy.layout.grow_left()),
@@ -230,8 +232,8 @@ layouts = [
     layout.Columns(split=False, **layout_theme),
     layout.Slice(
         fallback=layout.Stack(num_stacks=1, name='term-stack', **layout_theme),
-        # name='ranger-terminals', width=450, wmclass='ranger-window')
-        name='ranger-terminals', width=604, wmclass='ranger-window')
+        name='ranger-terminals', width=450, wmclass='ranger-window')
+        # name='ranger-terminals', width=604, wmclass='ranger-window')
 ]
 
 
