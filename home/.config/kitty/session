@@ -1,0 +1,12 @@
+title ranger-window
+launch ranger
+
+new_os_window
+launch sudo -i
+
+new_os_window
+launch zsh
+
+new_os_window
+title ncmpcpp-window
+launch ncmpcpp
